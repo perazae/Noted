@@ -25,7 +25,7 @@ function isLoggedIn() {
 // landing page, in order to process a user's login. READ this code,
 // and feel free to re-use parts of it for other `fetch()` requests
 // you may need to write.
-async function login(loginData) {
+function login(loginData) {
   // POST /auth/login
   const options = {
     method: "POST",
@@ -42,7 +42,7 @@ async function login(loginData) {
     .then((response) => response.json())
     .then((loginData) => {
       window.localStorage.setItem("login-data", JSON.stringify(loginData));
-      window.location.assign("/pages/posts"); // redirect
+      window.location.assign("/posts"); // redirect
 
       return loginData;
     });
