@@ -4,7 +4,7 @@
 
 const loginForm = document.querySelector("#login");
 
-loginForm.onsubmit = function (event) {
+loginForm.onsubmit = async function (event) {
   // Prevent the form from refreshing the page,
   // as it will do by default when the Submit event is triggered:
   event.preventDefault();
@@ -23,7 +23,7 @@ loginForm.onsubmit = function (event) {
   spinner.classList.remove("d-none");
 
   // Time to actually process the login using the function from auth.js!
-  login(loginData).then((response) => {
+  await login(loginData).then((response) => {
     if (response.statusCode === 400) {
       alert("invalid credentials");
     }
