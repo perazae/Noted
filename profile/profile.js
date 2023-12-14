@@ -1,16 +1,18 @@
-'use strict';
+"use strict";
 
-const loginData = getLoginData();
+window.onload = init;
 
-const loginToken = loginData.token;
+let userData;
+async function init() {
+  userData = await getUser();
+}
 
-const usernameEndpoint = loginData.username;
+// returns an object of a user
+// with properties: username, bio, fullName, createdAt, updatedAt
+async function getUser() {
+  const loginData = getLoginData();
 
-const stringValue = JSON.stringify(usernameEndpoint)
-
-
-
-//   GET /auth/logout
+  // GET /api/users/:username
   const options = {
     method: "GET",
     headers: {
@@ -18,18 +20,11 @@ const stringValue = JSON.stringify(usernameEndpoint)
       // server for any API requests which require the user
       // to be logged-in in order to have access.
       // In the API docs, these endpoints display a lock icon.
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjMiLCJpYXQiOjE3MDI1MTA3NjksImV4cCI6MTcwMjU5NzE2OX0.AYsMSYEadpMT1hQCAlydG2w-EsAjJZTJiHHD75K_XzQ`,
+      Authorization: `Bearer ${loginData.token}`,
     },
   };
 
-fetch(`https://microbloglite.onrender.com/api/users/${usernameEndpoint}`)
-  .then(response => response.json())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
-
-
-
-
-
-
-  
+  fetch(apiBaseURL + `/api/users/${loginData.username}`, options)
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+}
