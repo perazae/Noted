@@ -2,9 +2,17 @@
 "use strict";
 async function displayAllUserPosts() {
     const baseURL = "https://microbloglite.onrender.com/api/posts";
-
     
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjMiLCJpYXQiOjE3MDI1MTEwOTQsImV4cCI6MTcwMjU5NzQ5NH0.Zq8iXS6gDfUqnXXRKTWRuyeHYcF1OMxINtljfcFtF8Y"; 
+    //detect user
+    if(!isLoggedIn()){
+        const paragraph = document.createElement('p');
+        paragraph.innerHTML = "Please sign in"
+
+
+    }
+    
+    const loginData = getLoginData();
+    const token = loginData.token;
 
     const requestOptions = {
         method: 'GET',
