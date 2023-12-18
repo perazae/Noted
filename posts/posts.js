@@ -1,24 +1,30 @@
 /* Posts Page JavaScript */
 "use strict";
 
-const btnCreatePost = document.getElementById("btnCreatePost");
-btnCreatePost.addEventListener("click", clearForm);
+window.onload = init;
 
-const formCreatePost = document.getElementById("formCreatePost");
-formCreatePost.addEventListener("submit", (event) => {
-  event.preventDefault();
+function init() {
+  const btnCreatePost = document.getElementById("btnCreatePost");
+  btnCreatePost.addEventListener("click", clearForm);
 
-  // While testing, putting preventDefault() in an if/else statement
-  // prevented the createPost() function from sending a successful POST request
-  // Thus, preventDefault() will be used outside of the following if statement,
-  // and a workaround to closing the modal upon successful submit is created in the
-  // resetCreatePostModal() function
-  if (formCreatePost.checkValidity()) {
-    createPost();
-  }
+  const formCreatePost = document.getElementById("formCreatePost");
+  formCreatePost.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  formCreatePost.classList.add("was-validated");
-});
+    // While testing, putting preventDefault() in an if/else statement
+    // prevented the createPost() function from sending a successful POST request
+    // Thus, preventDefault() will be used outside of the following if statement,
+    // and a workaround to closing the modal upon successful submit is created in the
+    // resetCreatePostModal() function
+    if (formCreatePost.checkValidity()) {
+      createPost();
+    }
+
+    formCreatePost.classList.add("was-validated");
+  });
+
+  displayAllUserPosts();
+}
 
 async function displayAllUserPosts() {
   const baseURL = "https://microbloglite.onrender.com/api/posts";
