@@ -1,10 +1,36 @@
 /* Posts Page JavaScript */
 "use strict";
+
+window.onload = init;
+
+function init() {
+  const btnCreatePost = document.getElementById("btnCreatePost");
+  btnCreatePost.addEventListener("click", clearForm);
+
+  const formCreatePost = document.getElementById("formCreatePost");
+  formCreatePost.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    // While testing, putting preventDefault() in an if/else statement
+    // prevented the createPost() function from sending a successful POST request
+    // Thus, preventDefault() will be used outside of the following if statement,
+    // and a workaround to closing the modal upon successful submit is created in the
+    // resetCreatePostModal() function
+    if (formCreatePost.checkValidity()) {
+      createPost();
+    }
+
+    formCreatePost.classList.add("was-validated");
+  });
+
+  displayAllUserPosts();
+}
+
 async function displayAllUserPosts() {
   const baseURL = "https://microbloglite.onrender.com/api/posts";
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMjMiLCJpYXQiOjE3MDI1MTEwOTQsImV4cCI6MTcwMjU5NzQ5NH0.Zq8iXS6gDfUqnXXRKTWRuyeHYcF1OMxINtljfcFtF8Y";
+  const loginData = getLoginData();
+  const token = loginData.token;
 
   const requestOptions = {
     method: "GET",
@@ -44,22 +70,6 @@ async function displayAllUserPosts() {
   }
 }
 
-const formCreatePost = document.getElementById("formCreatePost");
-formCreatePost.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  // While testing, putting preventDefault() in an if/else statement
-  // prevented the createPost() function from sending a successful POST request
-  // Thus, preventDefault() will be used outside of the following if statement,
-  // and a workaround to closing the modal upon successful submit is created in the
-  // resetCreatePostModal() function
-  if (formCreatePost.checkValidity()) {
-    createPost();
-  }
-
-  formCreatePost.classList.add("was-validated");
-});
-
 function createPost() {
   const text = document.getElementById("inputPostText").value;
 
@@ -94,6 +104,3 @@ function clearForm() {
   formCreatePost.classList.remove("was-validated");
   document.getElementById("inputPostText").value = "";
 }
-
-const btnCreatePost = document.getElementById("btnCreatePost");
-btnCreatePost.addEventListener("click", clearForm);
