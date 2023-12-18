@@ -10,14 +10,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+        
+
     <!-- Global CSS (CSS rules you want applied to all pages) -->
     <link rel="stylesheet" href="../assets/styles/global.css">
 
     <!-- Page-specific CSS -->
-    <link rel="stylesheet" href="#">
+    <link rel="stylesheet" href="profileStyle.css">
 
     <!-- Run BEFORE page is finished loading (before window.onload): -->
-    <script src="/scripts/auth.js"></script>
+    <script src="../scripts/auth.js"></script>
     <script>
             if (isLoggedIn() === false) window.location.replace("/");
     </script>
@@ -30,7 +35,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
               <div class="container">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a class="navbar-brand" href="#"><img src="/Noted/profile/logo2.PNG" alt="" height="50px" style="border-radius: 30%;"></a>
                 <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -41,25 +46,86 @@
                             <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile">Profile</a>
+                            <a class="nav-link" href="index.html">Profile</a>
                         </li>
                         <li class="nav-item ms-auto">
-                            <button class="btn btn-primary">Create Post</button>
+                            <button class="btn btn-dark">Create Post</button>
+                            <button class="btn btn-outline-dark" onclick="logout()">Logout</button>
                         </li>
                     </ul>
                 </div>
           </div>
         </nav>
     </header>
-    <h1>Profile</h1>
+    
     <main>
-        <button onclick="logout()">Logout</button>
+        <!-- <img src="https://i.insider.com/4efd9b8b69bedd682c000022?width=750&format=jpeg&auto=webp" alt="" style="border-radius: 50%; height: 200px;"> -->
+
+        <!-- profile section -->
+        <div class="container">
+        <div class="row py-5 px-4"> 
+            <div class="col-12 col-md-9 mx-auto"> <!-- Profile widget --> 
+            <div class="bg-white shadow rounded overflow-hidden"> 
+                <div class="px-4 pt-0 pb-4 cover"> 
+                <div class="media align-items-end profile-head"> 
+                    
+                    <div class="profile mr-3">
+                        
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAPFBMVEXk5ueutLepsLPo6uursbXJzc/p6+zj5ea2u76orrKvtbi0ubzZ3N3O0dPAxcfg4uPMz9HU19i8wcPDx8qKXtGiAAAFTElEQVR4nO2d3XqzIAyAhUD916L3f6+f1m7tVvtNINFg8x5tZ32fQAIoMcsEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQTghAJD1jWtnXJPP/54IgNzZQulSmxvTH6oYXX4WS+ivhTbqBa1r26cvCdCu6i0YXbdZ0o4A1rzV+5IcE3YE+z58T45lqo7g1Aa/JY5tgoqQF3qb382x7lNzBLcxft+O17QUYfQI4IIeklKsPSN4i6LKj/7Zm8n99RbHJpEw9gEBXNBpKIYLJqKYRwjOikf//r+J8ZsVuacbqCMNleI9TqGLGqMzhnVdBOdd6F/RlrFijiCoVMk320CBIahUxTWI0KKEcJqKbMdpdJb5QvdHq6wCI5qhKlgGMS/RBHkubWDAE+QZxB4xhCyDiDkLZxgGEVdQldzSKbTIhmZkFkSEPcVvmBn2SMuZB9od7fQDsMiDdKJjFUSCQarM5WirZ3C2TT/htYnyPcPfgrFHWz0BI74gr6J/IZiGUxAZGQLqmvQLTrtE/Go4YxhVRIpEw+sww1IIcqr5NKmUUzLF3d4/qPkYIp2T/obPuemlojFUR4t9Q2Vojhb7BmgElWHzLPH8hucfpefPNFTVgs9h1AdU/Pin96vwWbWdf+X9Absn3OdO34aMdsDnP8WgKYisTqI6CkNGqZQo1XA6Ef6AU32SJzOcBukHPF07/xNSgmHKa5BOhtezv6mA/rYJpwXNAnbRZ1XuF3BzDcO3vpA3+ny2909gbqE4hhD3LIPhLLyBNhPZvbZ3B+3tPYa18A7auSlXQayKwTPNLKDcuOB0xPYKDPFTkWsevQPRZ1J8Hji9I1KQ34r7hZhrwNwOZ97QxNx0drwn4QI0wQk1DcEsfKCWKdxVvxPSNUIp/knmAXT+nT+Ko3+0H96rcNb3m1fx7MBTJdeBJ7uFcWsc0wvgAsC4pROW0l2inbAmIBv/7GZmuhQH6API2rr8T0e6yuZJ+80A9LZeG62T3tik31XwxtwZcizKuTHkMjB1WdZde4Kmic/A5ZI3rr1ae21d08PlVHYfAaxw9G9CYRbJ+8ZdbTcMRV1XM3VdF0M32vtoTdZ0+u29s0OttJ5bz64UwinjaFMVY9vkqc3KKSxN21Xl+0L4Q3Vuv1tYl0pqnX6ms4XetFz7gdZVAgUEoJntfOUe4ZwsHd9FzqQ3Vv6xe41l0XJcqcKl6TZvlv7ClAW3BsqQW4X7ypApB8dmTgK4IX5wvqIVj33HtD2qSG4BqznxdIefL27Y4sahi0MdIdvUsDva8agGGbCtITmCY31MHD2O0uIdh/0rJDQ1VX5Zdxz3rR2QDbv6qXl9vudzqQtGm1Jv9LDXOsfvvB7VcZ8PDKD0mQ1VHPYQ9O+Yj4hR1IUD8rBnn3ho2m8oQMxbCFiKlL2ioSW5heeJqegED52CzxCtcGD3Kv8Wms9EYLyUhwaFIhSMBClevWEmiK/Iaogu4H7sg6ppQhQG8RUqivuTGOAJOg6FfgW0q0M0PQMRMEgXaeNf3SYDZ8PIMI0+wHgr/MgN7wYwpiLjCCqM6ydUDZLQiB6nDdNC8SDyig3jPPpFXGcC9O8BUBDVmgBY59E7Md/35Loe/UVEECEJwYggJjELZ4J71SaQSBeC02n4Da29CayJNA28SAhd2CQyC1Xw6pSmGSINQVuMhAZp4DClan9MgmkDDNmezqwS8sgtlXK/EPBhoaSmYVC/F7IO1jQEdHOlabpKh3+jzLQSTUiq4X2I+Ip/zU8rlaqAvkS21ElR+gqu3zbjjL+hIAiCIAiCIAiCIAiCsCf/AKrfVhSbvA+DAAAAAElFTkSuQmCC" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                    <a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                </div> 
+                    <div class="media-body mb-5 text-white"> 
+                        <h4 class="mt-0 mb-0" id="viewUser"></h4> 
+                        <p class="small mb-4"> 
+                        San Francisco
+                        </p> 
+                        </div> 
+                        </div> 
+                    </div> 
+                    <div class="bg-light p-4 d-flex justify-content-end text-center"> 
+                        <ul class="list-inline mb-0"> 
+                            <li class="list-inline-item"> 
+                                <h5 class="font-weight-bold mb-0 d-block">215</h5>
+                                <small class="text-muted"> 
+                                    <i class="fas fa-image mr-1"></i>Posts</small> 
+                            </li> 
+                            <li class="list-inline-item"> 
+                                <h5 class="font-weight-bold mb-0 d-block">12</h5>
+                                <small class="text-muted"> <i class="fas fa-user mr-1">
+
+                                </i>Likes</small> 
+                            </li> 
+                                </ul> 
+                            </div> 
+                            <div class="px-4 py-3"> 
+                                <h5 class="mb-0">Bio</h5> 
+                                <div class="p-4 rounded shadow-sm bg-light"> 
+                                    <p class="font-italic mb-0">Application Development Student @ Year Up</p> 
+                                    <p class="font-italic mb-0">Lives in San Francisco</p> 
+                                    <p class="font-italic mb-0">My dog's name is Biscuit</p> </div> </div> 
+                                    <div class="py-4 px-4"> <div class="d-flex align-items-center justify-content-between mb-3"> 
+                                        <h5 class="mb-0">Recent posts</h5>
+                                        <a href="#" class="btn btn-link text-muted">Show all</a> </div> <div class="row"> 
+                                            <div class="col-lg-6 mb-2 pr-lg-1">
+                                                <img src="/Noted/profile/Capture.PNG" alt="" class="img-fluid rounded shadow-sm"></div> 
+                                                <div class="col-lg-6 mb-2 pl-lg-1">
+                                                    <img src="/Noted/profile/Capture.PNG" alt="" class="img-fluid rounded shadow-sm"></div> <div class="col-lg-6 pr-lg-1 mb-2">
+                                                        <img src="/Noted/profile/Capture.PNG" alt="" class="img-fluid rounded shadow-sm">
+                                                        </div> </div> </div> </div> </div>
+        </div>
+    </div>
+
+        <!-- profile section -->
+
+
+
     </main>
 
     <footer></footer>
 
     <!-- Page-specific code -->
     <script src="profile.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
         crossorigin="anonymous"></script>
