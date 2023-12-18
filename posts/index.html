@@ -41,7 +41,7 @@
                             <a class="nav-link" href="/profile">Profile</a>
                         </li>
                         <li class="nav-item ms-auto">
-                            <button class="btn btn-primary">Create Post</button>
+                            <button type="button" class="btn btn-primary" id="btnCreatePost" data-bs-toggle="modal" data-bs-target="#modalCreatePost">Create Post</button>
                         </li>
                     </ul>
                 </div>
@@ -53,6 +53,31 @@
     <main>
         <div class="container mt-4" id="posts-container"></div>
         <button onclick="logout()">Logout</button>
+
+        <!-- Modal for creating a post -->
+        <div class="modal fade" id="modalCreatePost" tabindex="-1" aria-labelledby="Modal for creating a post" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Create a post</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="needs-validation" novalidate id="formCreatePost">
+                            <textarea class="form-control" id="inputPostText" placeholder="Enter text" minlength="2" maxlength="255" rows="3" required></textarea>
+                            <div class="invalid-feedback">
+                                Your post must be at least 2 characters.
+                            </div>
+                            <button type="submit" id="btnSubmitPost" class="visually-hidden"></button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <label for="btnSubmitPost" class="btn btn-primary" tabindex="0">Submit</label>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
