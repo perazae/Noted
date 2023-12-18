@@ -1,3 +1,6 @@
+const btnCreatePost = document.getElementById("btnCreatePost");
+btnCreatePost.addEventListener("click", clearForm);
+
 const formCreatePost = document.getElementById("formCreatePost");
 formCreatePost.addEventListener("submit", (event) => {
   event.preventDefault();

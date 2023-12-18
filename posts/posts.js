@@ -4,9 +4,6 @@
 window.onload = init;
 
 function init() {
-  const btnCreatePost = document.getElementById("btnCreatePost");
-  btnCreatePost.addEventListener("click", clearForm);
-
   displayAllUserPosts();
 }
 
