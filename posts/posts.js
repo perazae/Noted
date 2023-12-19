@@ -8,8 +8,6 @@ function init() {
 }
 
 async function displayAllUserPosts() {
-  const baseURL = "https://microbloglite.onrender.com/api/posts";
-
   const loginData = getLoginData();
   const token = loginData.token;
 
@@ -23,30 +21,148 @@ async function displayAllUserPosts() {
   };
 
   try {
-    const response = await fetch(baseURL, requestOptions);
+    const response = await fetch(apiBaseURL + "/api/posts", requestOptions);
     const data = await response.json();
 
     const postsContainer = document.getElementById("posts-container");
     postsContainer.innerHTML = ""; // refresh card
 
-    data.forEach((post) => {
+    data.forEach((post, index) => {
       let userName = post.username;
       let postText = post.text;
 
       let cardHTML = `
-                <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">${userName}</h5>
-                        <p class="card-text">${postText}</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            `;
+        <div class="card" style="width: 18rem;">
+            <div class="card-body" id="card-${index}">
+                <h5 class="card-title">${userName}</h5>
+                <p class="card-text">${postText}</p>
+                <p class="card-text">${post.likes.length} Likes</p>
+              </div>
+        </div>
+      `;
 
-      postsContainer.innerHTML += cardHTML;
+      postsContainer.insertAdjacentHTML("beforeend", cardHTML);
+      const parentNode = document.getElementById(`card-${index}`);
+      getLikeButton(parentNode, post.likes, post._id);
     });
   } catch (error) {
     console.error("Error fetching data:", error);
   }
+}
+
+// return the like id of the post that the current user has liked
+function isLiked(likesArray) {
+  for (let i = 0; i < likesArray.length; i++) {
+    if (likesArray[i].username === getLoginData().username) {
+      return likesArray[i]._id;
+    }
+  }
+  return 0;
+}
+
+function getLikeButton(parentNode, likesArray, postId) {
+  const likeId = isLiked(likesArray);
+
+  if (likeId) {
+    createLikedButton(parentNode, postId, likeId);
+  } else {
+    createUnlikedButton(parentNode, postId);
+  }
+}
+
+/**
+ * This function creates a "Liked" button, which represents that
+ * the corresponding post has an active "Like" on it.
+ * In other words, this post has already been liked by the current user.
+ */
+function createLikedButton(parentNode, postId, likeId) {
+  const btn = document.createElement("button");
+  btn.classList.add("btn", "btn-success");
+  btn.textContent = "Liked";
+
+  // Since the corresponding post is Liked, add a click event listener
+  // that will delete this Like
+  // In other words, "unlike" the corresponding post
+  btn.addEventListener("click", async () => {
+    // Show spinner while fetching request
+    btn.innerHTML = `
+      <div class="spinner-border text-dark" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    `;
+    const response = await deleteLike(likeId);
+
+    // Upon successfully unliking a post, delete this Like button
+    // and replace it with an 'Unliked' button, which means that
+    // the corresponding post is no longer Liked
+    if (response.ok) {
+      btn.remove();
+      createUnlikedButton(parentNode, postId);
+    } else {
+      btn.textContent = "Liked";
+      alert("Ran into error when unliking post");
+    }
+  });
+  parentNode.appendChild(btn);
+}
+
+/**
+ * This function creates a "Unliked" button, which represents that
+ * the corresponding post does not have an active "Like" on it.
+ * In other words, this post is not liked by the current user.
+ */
+function createUnlikedButton(parentNode, postId) {
+  const btn = document.createElement("button");
+  btn.classList.add("btn", "btn-warning");
+  btn.textContent = "Not Liked";
+
+  // Since the corresponding post is Unliked, add a click event listener
+  // that will create a Like
+  // In other words, add a "like" to the corresponding post
+  btn.addEventListener("click", async () => {
+    // Show spinner while fetching request
+    btn.innerHTML = `
+      <div class="spinner-border text-dark" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    `;
+    const response = await createLike(postId);
+
+    // Upon successfully liking a post, delete this Unliked button
+    // and replace it with an 'Liked' button, which means that
+    // the corresponding post is now Liked
+    if (response.ok) {
+      btn.remove();
+      const like = await response.json();
+      createLikedButton(parentNode, postId, like._id);
+    } else {
+      btn.textContent = "Not Liked";
+      alert("Ran into error when liking post");
+    }
+  });
+  parentNode.appendChild(btn);
+}
+
+async function createLike(postId) {
+  const options = {
+    method: "POST",
+    body: JSON.stringify({ postId }),
+    headers: {
+      Authorization: `Bearer ${getLoginData().token}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  return fetch(apiBaseURL + "/api/likes", options);
+}
+
+async function deleteLike(likeId) {
+  const options = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${getLoginData().token}`,
+    },
+  };
+
+  return fetch(apiBaseURL + `/api/likes/${likeId}`, options);
 }
