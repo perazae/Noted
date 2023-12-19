@@ -76,20 +76,13 @@ function getLikeButton(parentNode, likesArray, postId) {
  * In other words, this post has already been liked by the current user.
  */
 function createLikedButton(parentNode, postId, likeId) {
-  const btn = document.createElement("button");
-  btn.classList.add("btn", "btn-success");
-  btn.textContent = "Liked";
+  const btn = document.createElement("div");
+  btn.classList.add("btn-like", "liked");
 
   // Since the corresponding post is Liked, add a click event listener
   // that will delete this Like
   // In other words, "unlike" the corresponding post
   btn.addEventListener("click", async () => {
-    // Show spinner while fetching request
-    btn.innerHTML = `
-      <div class="spinner-border text-dark" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    `;
     const response = await deleteLike(likeId);
 
     // Upon successfully unliking a post, delete this Like button
@@ -99,7 +92,6 @@ function createLikedButton(parentNode, postId, likeId) {
       btn.remove();
       createUnlikedButton(parentNode, postId);
     } else {
-      btn.textContent = "Liked";
       alert("Ran into error when unliking post");
     }
   });
@@ -112,31 +104,26 @@ function createLikedButton(parentNode, postId, likeId) {
  * In other words, this post is not liked by the current user.
  */
 function createUnlikedButton(parentNode, postId) {
-  const btn = document.createElement("button");
-  btn.classList.add("btn", "btn-warning");
-  btn.textContent = "Not Liked";
+  const btn = document.createElement("div");
+  btn.classList.add("btn-like");
 
   // Since the corresponding post is Unliked, add a click event listener
   // that will create a Like
   // In other words, add a "like" to the corresponding post
   btn.addEventListener("click", async () => {
-    // Show spinner while fetching request
-    btn.innerHTML = `
-      <div class="spinner-border text-dark" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    `;
     const response = await createLike(postId);
 
     // Upon successfully liking a post, delete this Unliked button
     // and replace it with an 'Liked' button, which means that
     // the corresponding post is now Liked
     if (response.ok) {
-      btn.remove();
+      await playLikeAnimation(btn);
       const like = await response.json();
       createLikedButton(parentNode, postId, like._id);
+
+      // removing the button prevents the animation from playing
+      // btn.remove();
     } else {
-      btn.textContent = "Not Liked";
       alert("Ran into error when liking post");
     }
   });

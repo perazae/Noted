@@ -1,0 +1,47 @@
+.btn-like {
+  width: 10rem;
+  height: 8rem;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  cursor: pointer;
+}
+
+.btn-like:hover::before,
+.btn-like:hover::after {
+  background: #f7fafe;
+}
+
+.btn-like::before,
+.btn-like::after {
+  content: "";
+
+  position: absolute;
+
+  width: 5rem;
+  height: 8rem;
+
+  background: #9ca3af;
+  border-radius: 5rem 5em 1rem 1rem;
+
+  transition: background 0.6s;
+}
+
+.btn-like::before {
+  left: 5rem;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.btn-like::after {
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+.btn-like.liked::before,
+.btn-like.liked::after {
+  background: #eb2940;
+}
