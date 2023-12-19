@@ -4,6 +4,8 @@
 window.onload = init;
 
 function init() {
+  const btnCreatePost = document.getElementById("btnCreatePost");
+  btnCreatePost.addEventListener("click", clearForm);
   displayAllUserPosts();
 }
 
@@ -39,7 +41,7 @@ async function displayAllUserPosts() {
                     <div class="card-body">
                         <h5 class="card-title">${userName}</h5>
                         <p class="card-text">${postText}</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a href="#" class="btn btn-primary" onclick="deletePost(${post.id}, '${token}')">Delete</a>
                     </div>
                 </div>
             `;
@@ -48,5 +50,30 @@ async function displayAllUserPosts() {
     });
   } catch (error) {
     console.error("Error fetching data:", error);
+  }
+}
+
+// Delete posts function 
+async function deletePost(postId, token) {
+  const baseURL = `https://microbloglite.onrender.com/api/posts/${postId}`;
+
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const response = await fetch(baseURL, requestOptions);
+    if (response.ok) {
+      console.log(`Post with ID ${postId} deleted successfully`);
+      displayAllUserPosts();
+    } else {
+      console.error("Error deleting post:", response.status);
+    }
+  } catch (error) {
+    console.error("Error deleting post:", error);
   }
 }
