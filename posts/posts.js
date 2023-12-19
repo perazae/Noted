@@ -117,7 +117,7 @@ function createUnlikedButton(parentNode, postId) {
     // and replace it with an 'Liked' button, which means that
     // the corresponding post is now Liked
     if (response.ok) {
-      await playLikeAnimation(btn);
+      playLikeAnimation(btn);
       const like = await response.json();
       createLikedButton(parentNode, postId, like._id);
 
