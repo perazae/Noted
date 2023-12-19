@@ -29,8 +29,8 @@
     <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="/assets/vendor/select2/select2.min.css">
     <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets//styles/login_page/util.css">
-        <link rel="stylesheet" type="text/css" href="/assets//styles/login_page/main.css"">
+        <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/util.css">
+        <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/main.css">
     <!--===============================================================================================-->
 
     <title>Login to the Microblog Network!</title>
@@ -43,25 +43,6 @@
 </head>
 <body>
     <main>
-        <a href="./signup">Sign up page</a>
-        <form id="login">
-            <div>
-                <label for="username">Username</label>
-                <input type="text" id="username" minlength="3">
-            </div>
-
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" minlength="6">
-            </div>
-
-            <button id="loginButton" type="submit">Login</button>
-        </form>
-
-        <div class="spinner-border d-none" id="spinner" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-          
         <div class="limiter">
             <div class="container-login100">
                 <div class="wrap-login100">
@@ -69,21 +50,23 @@
                         <img src="/assets/images/img-01.png" alt="IMG">
                     </div>
     
-                    <form class="login100-form validate-form">
+                    <form class="login100-form validate-form" id="login">
                         <span class="login100-form-title">
                             Member Login
                         </span>
     
-                        <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                            <input class="input100" type="text" name="email" placeholder="Email">
+                        <label for="username">Username</label>
+                        <div class="wrap-input100 validate-input" data-validate = "Username is required">
+                            <input class="input100" type="text" name="username" id="username" placeholder="Username" minlength="3">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-envelope" aria-hidden="true"></i>
                             </span>
                         </div>
     
+                        <label for="password">Password</label>
                         <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                            <input class="input100" type="password" name="pass" placeholder="Password">
+                            <input class="input100" type="password" id="password" name="pass" placeholder="Password">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-lock" aria-hidden="true"></i>
@@ -91,9 +74,13 @@
                         </div>
                         
                         <div class="container-login100-form-btn">
-                            <button class="login100-form-btn">
+                            <button type="submit" class="login100-form-btn" id="loginButton">
                                 Login
                             </button>
+                        </div>
+
+                        <div class="spinner-border d-none" id="spinner" role="status">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
     
                         <div class="text-center p-t-12">
@@ -106,7 +93,7 @@
                         </div>
     
                         <div class="text-center p-t-136">
-                            <a class="txt2" href="#">
+                            <a class="txt2" href="./signup/">
                                 Create your Account
                                 <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                             </a>
