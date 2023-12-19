@@ -42,6 +42,8 @@ async function displayAllUserPosts() {
       `;
 
       postsContainer.insertAdjacentHTML("beforeend", cardHTML);
+
+      // insert the like button into the card body
       const parentNode = document.getElementById(`card-${index}`);
       getLikeButton(parentNode, post.likes, post._id);
     });
