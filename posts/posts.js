@@ -4,6 +4,8 @@
 window.onload = init;
 
 function init() {
+  const btnCreatePost = document.getElementById("btnCreatePost");
+  btnCreatePost.addEventListener("click", clearForm);
   displayAllUserPosts();
 }
 
@@ -37,7 +39,7 @@ async function displayAllUserPosts() {
                 <h5 class="card-title">${userName}</h5>
                 <p class="card-text">${postText}</p>
                 <p class="card-text">${post.likes.length} Likes</p>
-              </div>
+            </div>
         </div>
       `;
 
@@ -154,4 +156,27 @@ async function deleteLike(likeId) {
   };
 
   return fetch(apiBaseURL + `/api/likes/${likeId}`, options);
+}
+
+// Delete posts function
+async function deletePost(postId) {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getLoginData().token}`,
+    },
+  };
+
+  try {
+    const response = await fetch(apiBaseURL + `/api/posts/${postId}`, requestOptions);
+    if (response.ok) {
+      console.log(`Post with ID ${postId} deleted successfully`);
+      displayAllUserPosts();
+    } else {
+      console.error("Error deleting post:", response.status);
+    }
+  } catch (error) {
+    console.error("Error deleting post:", error);
+  }
 }

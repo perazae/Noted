@@ -1,3 +1,4 @@
+"use strict";
 const btnCreatePost = document.getElementById("btnCreatePost");
 btnCreatePost.addEventListener("click", clearForm);
 
