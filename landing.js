@@ -36,5 +36,5 @@ loginForm.onsubmit = async function (event) {
 
   // Re-enable the button after the fetch request has been completed:
   loginForm.loginButton.disabled = false;
-  loginForm.textContent = "Login"
+  loginForm.loginButton.textContent = "Login"
 };
