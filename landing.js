@@ -23,7 +23,7 @@ loginForm.onsubmit = async function (event) {
 
   // Show spinner before processing the login
   loginForm.loginButton.innerHTML = `
-    <div class="spinner-border text-dark" role="status">
+    <div class="spinner-border text-white" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>`;
 
