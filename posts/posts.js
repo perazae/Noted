@@ -2,7 +2,7 @@
 "use strict";
 
 window.onload = init;
-
+//initalize
 function init() {
   const btnCreatePost = document.getElementById("btnCreatePost");
   btnCreatePost.addEventListener("click", clearForm);
@@ -25,10 +25,10 @@ async function displayAllUserPosts() {
   try {
     const response = await fetch(apiBaseURL + "/api/posts", requestOptions);
     const data = await response.json();
-
+    //bootstrap card
     const postsContainer = document.getElementById("posts-container");
     postsContainer.innerHTML = ""; // refresh card
-
+    //loop to display data into card
     data.forEach((post, index) => {
       let userName = post.username;
       let postText = post.text;
@@ -179,4 +179,4 @@ async function deletePost(postId) {
   } catch (error) {
     console.error("Error deleting post:", error);
   }
-}
+ }
