@@ -16,20 +16,25 @@ loginForm.onsubmit = async function (event) {
     password: loginForm.password.value,
   };
 
+  if (!loginData.username.trim() || !loginData.password.trim()) return;
+
   // Disables the button after the form has been submitted already:
   loginForm.loginButton.disabled = true;
 
-  const spinner = document.getElementById("spinner");
-  spinner.classList.remove("d-none");
+  // Show spinner before processing the login
+  loginForm.loginButton.innerHTML = `
+    <div class="spinner-border text-white" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>`;
 
   // Time to actually process the login using the function from auth.js!
   await login(loginData).then((response) => {
     if (response.statusCode === 400) {
-      alert("invalid credentials");
+      alert("Invalid credentials. Please try again.");
     }
   });
 
   // Re-enable the button after the fetch request has been completed:
   loginForm.loginButton.disabled = false;
-  spinner.classList.remove("d-none");
+  loginForm.textContent = "Login"
 };

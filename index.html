@@ -15,25 +15,17 @@
     <!-- Global CSS (CSS rules you want applied to all pages) -->
     <link rel="stylesheet" href="assets/styles/global.css">
 
-    <!-- Page-specific CSS -->
-    <link rel="stylesheet" href="landing.css">
-
+    
     <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets/vendor/animate/animate.css">
-    <!--===============================================================================================-->	
-        <link rel="stylesheet" type="text/css" href="/assets/vendor/css-hamburgers/hamburgers.min.css">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets/vendor/select2/select2.min.css">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets//styles/login_page/util.css">
-        <link rel="stylesheet" type="text/css" href="/assets//styles/login_page/main.css"">
+    <!-- Page specific CSS -->
+    <link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/animate/animate.css">	
+    <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/util.css">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/main.css">
+    <link rel="stylesheet" type="text/css" href="landing.css">
     <!--===============================================================================================-->
 
-    <title>Login to the Microblog Network!</title>
+    <title>Noted</title>
 
     <!-- Run BEFORE page is finished loading (before window.onload - don't add the `defer` attribute): -->
     <script src="scripts/auth.js"></script>
@@ -43,47 +35,30 @@
 </head>
 <body>
     <main>
-        <a href="./signup">Sign up page</a>
-        <form id="login">
-            <div>
-                <label for="username">Username</label>
-                <input type="text" id="username" minlength="3">
-            </div>
-
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" minlength="6">
-            </div>
-
-            <button id="loginButton" type="submit">Login</button>
-        </form>
-
-        <div class="spinner-border d-none" id="spinner" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-          
         <div class="limiter">
             <div class="container-login100">
                 <div class="wrap-login100">
                     <div class="login100-pic js-tilt" data-tilt>
-                        <img src="/assets/images/img-01.png" alt="IMG">
+                        <img src="/assets/images/logos/IMG_0402.jpg" class="rounded-circle" alt="IMG">
                     </div>
     
-                    <form class="login100-form validate-form">
+                    <form class="login100-form validate-form" id="login">
                         <span class="login100-form-title">
                             Member Login
                         </span>
     
-                        <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                            <input class="input100" type="text" name="email" placeholder="Email">
+                        <label class="form-label" for="username">Username</label>
+                        <div class="wrap-input100 validate-input" data-validate = "Username is required">
+                            <input class="input100" type="text" name="username" id="username" placeholder="Username">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <i class="fa fa-user" aria-hidden="true"></i>
                             </span>
                         </div>
     
+                        <label class="form-label" for="password">Password</label>
                         <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                            <input class="input100" type="password" name="pass" placeholder="Password">
+                            <input class="input100" type="password" id="password" name="pass" placeholder="Password">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-lock" aria-hidden="true"></i>
@@ -91,22 +66,13 @@
                         </div>
                         
                         <div class="container-login100-form-btn">
-                            <button class="login100-form-btn">
+                            <button type="submit" class="login100-form-btn loginBtn" id="loginButton">
                                 Login
                             </button>
                         </div>
     
-                        <div class="text-center p-t-12">
-                            <span class="txt1">
-                                Forgot
-                            </span>
-                            <a class="txt2" href="#">
-                                Username / Password?
-                            </a>
-                        </div>
-    
                         <div class="text-center p-t-136">
-                            <a class="txt2" href="#">
+                            <a class="text-decoration-none" href="./signup/">
                                 Create your Account
                                 <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                             </a>
@@ -115,7 +81,6 @@
                 </div>
             </div>
         </div>
-        
     </main>
 
     <footer></footer>
@@ -124,12 +89,7 @@
     <script src="landing.js"></script>
     <!--===============================================================================================-->	
 	<script src="/assets/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="/assets/vendor/bootstrap/js/popper.js"></script>
-    <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="/assets/vendor/select2/select2.min.js"></script>
-    <!--===============================================================================================-->
+    <script src="scripts/login_validation.js"></script>
     <script src="/assets/vendor/tilt/tilt.jquery.min.js"></script>
     <script >
         $('.js-tilt').tilt({
@@ -137,6 +97,5 @@
         })
     </script>
     <!--===============================================================================================-->
-    <script src="scripts/login_validation.js"></script>
 </body>
 </html>
