@@ -1,3 +1,4 @@
+"use strict";
 const btnCreatePost = document.getElementById("btnCreatePost");
 btnCreatePost.addEventListener("click", clearForm);
 
@@ -20,7 +21,6 @@ formCreatePost.addEventListener("submit", (event) => {
 function createPost() {
   const text = document.getElementById("inputPostText").value;
 
-  const apiBaseURL = "https://microbloglite.onrender.com";
   const options = {
     method: "POST",
     body: JSON.stringify({ text }),

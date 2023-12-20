@@ -11,8 +11,8 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" rel="stylesheet"> -->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet"> -->
         
 
     <!-- Global CSS (CSS rules you want applied to all pages) -->
@@ -30,8 +30,8 @@
     <title>Profile</title>
 
 </head>
-
 <body>
+    
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
               <div class="container">
@@ -46,7 +46,7 @@
                             <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Profile</a>
+                            <a class="nav-link" href="/profile/">Profile</a>
                         </li>
                         <li class="nav-item ms-auto">
                             <button class="btn btn-dark" id="btnCreatePost" data-bs-toggle="modal" data-bs-target="#modalCreatePost">Create Post</button>
@@ -69,28 +69,26 @@
                 <div class="px-4 pt-0 pb-4 cover"> 
                 <div class="media align-items-end profile-head"> 
                     
-                    <div class="profile mr-3">
+                <div class="profile mr-3">
                         
-                    <img src="/assets/images/logos/logo2.PNG" alt="..." width="130" class="rounded mb-2 img-thumbnail">
-                    <a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                    <img src="https://southernplasticsurgery.com.au/wp-content/uploads/2013/10/user-placeholder.png" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                    <a href="#" class="btn btn-outline-dark btn-sm btn-block" data-bs-toggle="modal" data-bs-target="#modalEditProfile">Edit profile</a>
                 </div> 
                     <div class="media-body mb-5 text-white"> 
-                        <h4 class="mt-0 mb-0" id="viewUser"></h4> 
-                        <p class="small mb-4"> 
-                        San Francisco
-                        </p> 
+                        <h3 class="mt-0 mb-0" id="userFullName"></h3> 
+                        <p class="small mb-4" id="viewUser"></p> 
                         </div> 
                         </div> 
                     </div> 
                     <div class="bg-light p-4 d-flex justify-content-end text-center"> 
                         <ul class="list-inline mb-0"> 
                             <li class="list-inline-item"> 
-                                <h5 class="font-weight-bold mb-0 d-block">215</h5>
+                                <h5 class="font-weight-bold mb-0 d-block" id="postNumber"></h5>
                                 <small class="text-muted"> 
                                     <i class="fas fa-image mr-1"></i>Posts</small> 
                             </li> 
                             <li class="list-inline-item"> 
-                                <h5 class="font-weight-bold mb-0 d-block">12</h5>
+                                <h5 class="font-weight-bold mb-0 d-block" id="postLikes"></h5>
                                 <small class="text-muted"> <i class="fas fa-user mr-1">
 
                                 </i>Likes</small> 
@@ -100,18 +98,19 @@
                             <div class="px-4 py-3"> 
                                 <h5 class="mb-0">Bio</h5> 
                                 <div class="p-4 rounded shadow-sm bg-light"> 
-                                    <p class="font-italic mb-0">Application Development Student @ Year Up</p> 
-                                    <p class="font-italic mb-0">Lives in San Francisco</p> 
-                                    <p class="font-italic mb-0">My dog's name is Biscuit</p> </div> </div> 
+                                    <p class="mb-0" id="userBio"></p> 
+                                </div> 
+                            </div> 
                                     <div class="py-4 px-4"> <div class="d-flex align-items-center justify-content-between mb-3"> 
                                         <h5 class="mb-0">Recent posts</h5>
-                                        <a href="#" class="btn btn-link text-muted">Show all</a> </div> <div class="row"> 
-                                            <div class="col-lg-6 mb-2 pr-lg-1">
-                                                <img src="/Noted/profile/Capture.PNG" alt="" class="img-fluid rounded shadow-sm"></div> 
-                                                <div class="col-lg-6 mb-2 pl-lg-1">
-                                                    <img src="Capture.PNG" alt="" class="img-fluid rounded shadow-sm"></div> <div class="col-lg-6 pr-lg-1 mb-2">
-                                                        <img src="Capture.PNG" alt="" class="img-fluid rounded shadow-sm">
-                                                        </div> </div> </div> </div> </div>
+                                        <a href="#" class="btn btn-link text-muted">Show all</a> </div> 
+                                        <div class="container"> 
+                                            <div class="row container justify-content-evenly" id="userPosts">
+                                            </div> 
+                                        </div> 
+                                                </div> 
+                                            </div> 
+                                        </div>
         </div>
     </div>
 
@@ -143,6 +142,41 @@
             </div>
         </div>
 
+        <!-- Modal for editing profile -->
+        <div class="modal fade" id="modalEditProfile" tabindex="-1" aria-labelledby="Modal for editing bio" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Profile</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Edit Fullname -->
+                    <div class="modal-body">
+                        
+                        <form class="needs-validation" novalidate id="formCreatePost">
+                            Full Name
+                            <textarea class="form-control" id="editFullName" placeholder="Enter text" minlength="2" maxlength="255" rows="1" required></textarea>
+                            <div class="invalid-feedback">
+                                Your post must be at least 2 characters.
+                            </div>
+                            <br>
+                            Bio
+                            <textarea class="form-control" id="editBio" placeholder="Enter text" minlength="2" maxlength="255" rows="3" required></textarea>
+                            <div class="invalid-feedback">
+                                Your post must be at least 2 characters.
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <label for="btnSubmitPost" class="btn btn-primary" onclick="putRequestProfile()" tabindex="0">Update</label>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
     </main>
 
     <footer></footer>
@@ -153,5 +187,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
         crossorigin="anonymous"></script>
+
+
 </body>
 </html>

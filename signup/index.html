@@ -15,10 +15,16 @@
     <!-- Global CSS (CSS rules you want applied to all pages) -->
     <link rel="stylesheet" href="../assets/styles/global.css">
 
-    <!-- Page-specific CSS -->
-    <link rel="stylesheet" href="../../landing.css">
+    <!--===============================================================================================-->
+    <!-- Page specific CSS -->
+    <link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/animate/animate.css">	
+    <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/util.css">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/main.css">
+    <link rel="stylesheet" type="text/css" href="../landing.css">
+    <!--===============================================================================================-->
 
-    <title>Login to the Microblog Network!</title>
+    <title>Noted</title>
 
     <!-- Run BEFORE page is finished loading (before window.onload - don't add the `defer` attribute): -->
     <script src="../scripts/auth.js"></script>
@@ -27,40 +33,76 @@
     </script>
 </head>
 <body>
-
-    <header>
-        <h1>Welcome to <code>YOUR MICROBLOG NETWORK</code></h1>
-    </header>
-
     <main>
-        <a href="../">Login page</a>
-        <form id="signup">
-            <div>
-                <label for="username">Username</label>
-                <input type="text" id="username" minlength="3">
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-pic js-tilt" data-tilt>
+                        <img src="/assets/images/logos/login_logo.jpg" class="rounded-circle" alt="Noted logo">
+                    </div>
+    
+                    <form class="login100-form validate-form" id="signup" novalidate>
+                        <span class="visually-hidden">Welcome to Noted</span>
+                        <span class="login100-form-title">
+                            Member Registration
+                        </span>
+    
+                        <label class="form-label" for="fullName">Full Name</label>
+                        <div class="wrap-input100 validate-input" data-validate = "Full Name is required">
+                            <input class="input100" type="text" name="fullName" id="fullName" placeholder="Full Name" required minlength="1">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </span>
+                        </div>
+
+                        <label class="form-label" for="username">Username</label>
+                        <div class="wrap-input100 validate-input" data-validate = "Username is required">
+                            <input class="input100" type="text" name="username" id="username" placeholder="Username" required minlength="3" maxlength="20">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </span>
+                        </div>
+    
+                        <label class="form-label" for="password">Password</label>
+                        <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                            <input class="input100" type="password" id="password" name="pass" placeholder="Password" required>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        
+                        <div class="container-login100-form-btn">
+                            <button type="submit" class="login100-form-btn loginBtn" id="signupButton">
+                                Sign Up
+                            </button>
+                        </div>
+    
+                        <div class="text-center p-t-44">
+                            <a class="text-decoration-none" href="/">
+                                Already have an account?
+                                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div>
-              <label for="fullName">Fullname</label>
-              <input type="text" id="fullName" minlength="3">
-          </div>
-
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" minlength="6">
-            </div>
-
-            <button id="signupButton" type="submit">Signup</button>
-        </form>
-
-        <div class="spinner-border d-none" id="spinner" role="status">
-            <span class="visually-hidden">Loading...</span>
         </div>
     </main>
 
-    <footer></footer>
-
     <!-- Page-specific code -->
     <script src="signup.js"></script>
+    <!--===============================================================================================-->	
+	<script src="/assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/scripts/login_validation.js"></script>
+    <script src="/assets/vendor/tilt/tilt.jquery.min.js"></script>
+    <script >
+        $('.js-tilt').tilt({
+            scale: 1.1
+        })
+    </script>
+    <!--===============================================================================================-->
 </body>
 </html>
