@@ -48,9 +48,23 @@ async function displayAllUserPosts() {
       // insert the like button into the card body
       const parentNode = document.getElementById(`card-${index}`);
       getLikeButton(parentNode, post.likes, post._id);
+
+      // create the delete button for this post
+      createDeleteButton(parentNode, post._id)
     });
   } catch (error) {
     console.error("Error fetching data:", error);
+  }
+}
+
+function createDeleteButton(parentNode, postId) {
+  // create an element that will be appended to the parentNode
+  // when this element is clicked, delete the post
+
+  // Live update for deleting the parentNode (which is the Post)
+  if(parentNode){
+    // since the parentNode has an existing parent, we want to delete the outermost layer, which contains the whole post
+    parentNode.parent.remove()
   }
 }
 
@@ -172,7 +186,7 @@ async function deletePost(postId) {
     const response = await fetch(apiBaseURL + `/api/posts/${postId}`, requestOptions);
     if (response.ok) {
       console.log(`Post with ID ${postId} deleted successfully`);
-      displayAllUserPosts();
+      // displayAllUserPosts();
     } else {
       console.error("Error deleting post:", response.status);
     }
