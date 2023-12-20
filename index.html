@@ -19,18 +19,11 @@
     <link rel="stylesheet" href="landing.css">
 
     <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets/vendor/animate/animate.css">
-    <!--===============================================================================================-->	
-        <link rel="stylesheet" type="text/css" href="/assets/vendor/css-hamburgers/hamburgers.min.css">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets/vendor/select2/select2.min.css">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/util.css">
-        <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/main.css">
+    <!-- Required CSS for landing page -->
+    <link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/animate/animate.css">	
+    <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/util.css">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/login_page/main.css">
     <!--===============================================================================================-->
 
     <title>Noted</title>
@@ -55,16 +48,16 @@
                             Member Login
                         </span>
     
-                        <label for="username">Username</label>
+                        <label class="form-label" for="username">Username</label>
                         <div class="wrap-input100 validate-input" data-validate = "Username is required">
-                            <input class="input100" type="text" name="username" id="username" placeholder="Username" minlength="3">
+                            <input class="input100" type="text" name="username" id="username" placeholder="Username">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <i class="fa fa-user" aria-hidden="true"></i>
                             </span>
                         </div>
     
-                        <label for="password">Password</label>
+                        <label class="form-label" for="password">Password</label>
                         <div class="wrap-input100 validate-input" data-validate = "Password is required">
                             <input class="input100" type="password" id="password" name="pass" placeholder="Password">
                             <span class="focus-input100"></span>
@@ -102,12 +95,6 @@
     <script src="landing.js"></script>
     <!--===============================================================================================-->	
 	<script src="/assets/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="/assets/vendor/bootstrap/js/popper.js"></script>
-    <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="/assets/vendor/select2/select2.min.js"></script>
-    <!--===============================================================================================-->
     <script src="/assets/vendor/tilt/tilt.jquery.min.js"></script>
     <script >
         $('.js-tilt').tilt({

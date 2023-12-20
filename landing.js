@@ -16,6 +16,8 @@ loginForm.onsubmit = async function (event) {
     password: loginForm.password.value,
   };
 
+  if (!loginData.username.trim() || !loginData.password.trim()) return;
+
   // Disables the button after the form has been submitted already:
   loginForm.loginButton.disabled = true;
 
