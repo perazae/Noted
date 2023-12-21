@@ -172,19 +172,11 @@ function putRequestProfile() {
     .then((response) => response.json())
     .then((result) => {
       updateProfile(result);
-      closeModal();
     })
     .catch((error) => {
       console.log("error", error);
-      closeModal();
-    });
-}
-
-function closeModal() {
-  // Manually close the modal
-  const modalEditProfile = document.getElementById("modalEditProfile");
-  const modal = bootstrap.Modal.getInstance(modalEditProfile);
-  modal.hide();
+    })
+    .finally(closeModal("modalEditProfile"));
 }
 
 

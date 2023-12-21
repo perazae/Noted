@@ -39,11 +39,7 @@ function createPost() {
 // Reset form input fields and close modal
 function resetCreatePostModal() {
   clearForm();
-
-  // Manually close the modal
-  const modalCreatePost = document.getElementById("modalCreatePost");
-  const modal = bootstrap.Modal.getInstance(modalCreatePost);
-  modal.hide();
+  closeModal("modalCreatePost");
 }
 
 // Remove present validation on the form and reset text field
@@ -51,4 +47,11 @@ function clearForm() {
   const formCreatePost = document.getElementById("formCreatePost");
   formCreatePost.classList.remove("was-validated");
   document.getElementById("inputPostText").value = "";
+}
+
+function closeModal(modalElementId) {
+  // Manually close the modal
+  const modalEditProfile = document.getElementById(modalElementId);
+  const modal = bootstrap.Modal.getInstance(modalEditProfile);
+  modal.hide();
 }
