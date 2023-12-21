@@ -58,14 +58,20 @@ async function displayAllUserPosts() {
 }
 
 function createDeleteButton(parentNode, postId) {
-  // create an element that will be appended to the parentNode
-  // when this element is clicked, delete the post
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML = "Delete";
+  deleteBtn.classList.add("btn", "btn-danger");
 
-  // Live update for deleting the parentNode (which is the Post)
-  if(parentNode){
-    // since the parentNode has an existing parent, we want to delete the outermost layer, which contains the whole post
-    parentNode.parent.remove()
-  }
+  //add a click event listener to the delete button
+  deleteBtn.addEventListener("click", async () => {
+    await deletePost(postId);
+
+    //remove the card/parent node
+    parentNode.remove();
+  });
+
+  //append the delete button to the parent node
+  parentNode.appendChild(deleteBtn);
 }
 
 // return the like id of the post that the current user has liked
