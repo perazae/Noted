@@ -8,6 +8,7 @@ async function init() {
   userData = getLoggedInUser();
   viewProfilePosts();
   viewUserInfo();
+  displayFriends()
 }
 
 // returns an object of a user
@@ -49,7 +50,6 @@ function viewProfilePosts() {
       //for loop post iteration
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
-        console.log(element)
 
         if ((likes.length === true)) {
           likes += 1; 
@@ -178,5 +178,46 @@ function putRequestProfile() {
     })
     .finally(closeModal("modalEditProfile"));
 }
+
+// Fetch friends
+function displayFriends() {
+  var myHeaders = new Headers();
+
+  const loginData = getLoginData();
+  const userToken = loginData.token;
+
+  myHeaders.append("Authorization", `Bearer ${userToken}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  let friendList = "";
+
+  fetch("http://microbloglite.us-east-2.elasticbeanstalk.com/api/users?limit=10&offset=5", requestOptions)
+    .then(response => response.json())
+    .then(friends => {
+      console.log(friends)
+      for (let index = 0; index < 10; index++) {
+        const element = friends[index].username;
+
+        // Check if the friendList already contains the current element
+        if (!friendList.includes(element)) {
+          let friendTemplate = `
+            <div class="list-group ">
+              <a href="#" class="list-group-item list-group-item-action">@${element}</a>
+            </div>
+          `;
+          friendList += friendTemplate;
+        }
+      }
+      document.getElementById('profileFriends').innerHTML = friendList;
+    })
+    .catch(error => console.log('error', error));
+}
+
+
 
 
