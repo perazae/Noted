@@ -70,13 +70,13 @@ function changeUserTag(username) {
 }
 
 async function viewProfilePosts(username) {
-  var myHeaders = new Headers();
+  const myHeaders = new Headers();
 
   const loginData = getLoginData();
   const userToken = loginData.token;
   myHeaders.append("Authorization", `Bearer ${userToken}`);
 
-  var requestOptions = {
+  const requestOptions = {
     method: "GET",
     headers: myHeaders,
     redirect: "follow",
@@ -150,13 +150,13 @@ async function viewProfilePosts(username) {
 
 //View user info with properties: fullname, un, bio, created and updated
 async function getUserInfo(username) {
-  var myHeaders = new Headers();
+  const myHeaders = new Headers();
   const loginData = getLoginData();
   const userToken = loginData.token;
 
   myHeaders.append("Authorization", `Bearer ${userToken}`);
 
-  var requestOptions = {
+  const requestOptions = {
     method: "GET",
     headers: myHeaders,
     redirect: "follow",
@@ -178,7 +178,7 @@ function updateProfile(result) {
 }
 
 function putRequestProfile() {
-  var myHeaders = new Headers();
+  const myHeaders = new Headers();
 
   const loginData = getLoginData();
 
@@ -193,13 +193,13 @@ function putRequestProfile() {
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `Bearer ${userToken}`);
 
-  var raw = JSON.stringify({
+  const raw = JSON.stringify({
     //Grab values from edit profile values: fullname and bio
     bio: `${bioValue}`,
     fullName: `${fullNameValue}`,
   });
 
-  var requestOptions = {
+  const requestOptions = {
     method: "PUT",
     headers: myHeaders,
     body: raw,
