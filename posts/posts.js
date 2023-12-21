@@ -2,7 +2,7 @@
 "use strict";
 
 window.onload = init;
-
+//initalize
 function init() {
   const btnCreatePost = document.getElementById("btnCreatePost");
   btnCreatePost.addEventListener("click", clearForm);
@@ -25,10 +25,10 @@ async function displayAllUserPosts() {
   try {
     const response = await fetch(apiBaseURL + "/api/posts", requestOptions);
     const data = await response.json();
-
+    //bootstrap card
     const postsContainer = document.getElementById("posts-container");
     postsContainer.innerHTML = ""; // refresh card
-
+    //loop to display data into card
     data.forEach((post, index) => {
       let userName = post.username;
       let postText = post.text;
@@ -36,7 +36,7 @@ async function displayAllUserPosts() {
       let cardHTML = `
         <div class="card" style="width: 18rem;">
             <div class="card-body" id="card-${index}">
-                <h5 class="card-title">${userName}</h5>
+                <a href="/profile/?username=${userName}"><h5 class="card-title">${userName}</h5></a>
                 <p class="card-text">${postText}</p>
                 <p class="card-text">${post.likes.length} Likes</p>
             </div>
@@ -48,10 +48,30 @@ async function displayAllUserPosts() {
       // insert the like button into the card body
       const parentNode = document.getElementById(`card-${index}`);
       getLikeButton(parentNode, post.likes, post._id);
+
+      // create the delete button for this post
+      createDeleteButton(parentNode, post._id)
     });
   } catch (error) {
     console.error("Error fetching data:", error);
   }
+}
+
+function createDeleteButton(parentNode, postId) {
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML = "Delete";
+  deleteBtn.classList.add("btn", "btn-danger");
+
+  //add a click event listener to the delete button
+  deleteBtn.addEventListener("click", async () => {
+    await deletePost(postId);
+
+    //remove the card/parent node
+    parentNode.remove();
+  });
+
+  //append the delete button to the parent node
+  parentNode.appendChild(deleteBtn);
 }
 
 // return the like id of the post that the current user has liked
@@ -172,11 +192,11 @@ async function deletePost(postId) {
     const response = await fetch(apiBaseURL + `/api/posts/${postId}`, requestOptions);
     if (response.ok) {
       console.log(`Post with ID ${postId} deleted successfully`);
-      displayAllUserPosts();
+      // displayAllUserPosts();
     } else {
       console.error("Error deleting post:", response.status);
     }
   } catch (error) {
     console.error("Error deleting post:", error);
   }
-}
+ }
