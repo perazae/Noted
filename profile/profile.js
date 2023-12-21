@@ -49,10 +49,11 @@ function viewProfilePosts() {
       //for loop post iteration
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
+        console.log(element)
 
-        if ((likes = true)) {
-          likes += 1;
-        }
+        if ((likes.length === true)) {
+          likes += 1; 
+        } 
 
         //Formatting time of post
         const timeStamp = element.createdAt;
@@ -76,7 +77,7 @@ function viewProfilePosts() {
         const userPost = `
       <div class="card m-3 col-12 shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
       <div class="card-body">
-        <h5 class="card-title">@${element.username}</h6>
+        <h5 class="card-title">@${element.username}</h5>
         <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
         <p class="card-text"><h4 class="text-center"><strong>${element.text}</strong></h4></p>
         <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
@@ -91,6 +92,11 @@ function viewProfilePosts() {
         posts += userPost;
       }
       document.getElementById("userPosts").innerHTML += posts;
+
+      if (likes == 0){
+        likes += 0
+      }
+
       document.getElementById("postLikes").innerHTML += likes;
     })
     .catch((error) => console.log("error", error));
@@ -117,9 +123,7 @@ function viewUserInfo() {
     .then((response) => response.json())
     .then((result) => {
       editProfile(result);
-      document.getElementById(
-        "userFullName"
-      ).innerHTML = `<strong>${result.fullName}</strong>`;
+      document.getElementById("userFullName").innerHTML = `<strong>${result.fullName}</strong>`;
       document.getElementById("userBio").innerHTML = `${result.bio}`;
     })
     .catch((error) => console.log("error", error));
@@ -168,17 +172,11 @@ function putRequestProfile() {
     .then((response) => response.json())
     .then((result) => {
       updateProfile(result);
-      closeModal();
     })
     .catch((error) => {
       console.log("error", error);
-      closeModal();
-    });
+    })
+    .finally(closeModal("modalEditProfile"));
 }
 
-function closeModal() {
-  // Manually close the modal
-  const modalEditProfile = document.getElementById("modalEditProfile");
-  const modal = bootstrap.Modal.getInstance(modalEditProfile);
-  modal.hide();
-}
+

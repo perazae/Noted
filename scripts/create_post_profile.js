@@ -32,7 +32,11 @@ function createPost() {
 
   fetch(apiBaseURL + "/api/posts", options)
     .then((response) => response.json())
-    .then((data) => resetCreatePostModal())
+    .then((newPost) => {
+      resetCreatePostModal();
+      // update posts section
+      updatePostsSection(newPost);
+    })
     .catch((error) => alert("Ran into server error when creating post"));
 }
 
@@ -54,4 +58,10 @@ function closeModal(modalElementId) {
   const modalEditProfile = document.getElementById(modalElementId);
   const modal = bootstrap.Modal.getInstance(modalEditProfile);
   modal.hide();
+}
+
+// update the post section on profile page after creating a new post
+// only if the current profile page belongs to the current user
+function updatePostsSection(newPost) {
+  // DOM manipulation
 }
