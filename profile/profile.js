@@ -85,67 +85,63 @@ async function viewProfilePosts(username) {
   fetch(`${apiBaseURL}/api/posts?username=${username}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      let postNums = result.length;
+      let numPosts = result.length;
 
       //Displaying number of posts on profile
-      document.getElementById("postNumber").innerHTML = postNums;
-      let posts = "";
-      let likes = "";
+      document.getElementById("postNumber").innerText = numPosts;
+      let numLikes = 0;
 
       //for loop post iteration
-      for (let index = 0; index < result.length; index++) {
-        const element = result[index];
-        console.log(element);
+      for (let index = 0; index < numPosts; index++) {
+        const post = result[index];
+        console.log(post);
 
-        if (likes.length === true) {
-          likes += 1;
-        }
+        numLikes += post.likes.length;
 
-        //Formatting time of post
-        const timeStamp = element.createdAt;
-        const date = new Date(timeStamp);
-
-        const options = {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-          hour12: true,
-        };
-
-        //Newly formatted time of post to display
-        const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-          date
-        );
-
-        const userPost = `
-      <div class="card m-3 col-12 shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">@${element.username}</h5>
-        <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
-        <p class="card-text"><h4 class="text-center"><strong>${element.text}</strong></h4></p>
-        <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
-        </div>
-        <div class="text-center">
-        <a href="#" class="card-link">Like</a>
-        <a href="#" class="card-link">Comment</a>
-        </div>
-      </div>
-    </div>
-      `;
-        posts += userPost;
-      }
-      document.getElementById("userPosts").innerHTML += posts;
-
-      if (likes == 0) {
-        likes += 0;
+        document
+          .getElementById("userPosts")
+          .insertAdjacentHTML("beforebegin", createUserPost(post));
       }
 
-      document.getElementById("postLikes").innerHTML += likes;
+      document.getElementById("postLikes").innerText = numLikes;
     })
     .catch((error) => console.log("error", error));
+}
+
+function createUserPost(post) {
+  //Formatting time of post
+  const timeStamp = post.createdAt;
+  const date = new Date(timeStamp);
+
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true,
+  };
+
+  //Newly formatted time of post to display
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
+
+  const userPost = `
+  <div class="card w-100 shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">@${post.username}</h5>
+      <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
+      <p class="card-text"><h4 class="text-center"><strong>${post.text}</strong></h4></p>
+      <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
+      </div>
+      <div class="text-center">
+      <a href="#" class="card-link">Like</a>
+      <a href="#" class="card-link">Comment</a>
+      </div>
+    </div>
+  </div>
+  `;
+  return userPost;
 }
 
 //View user info with properties: fullname, un, bio, created and updated
@@ -173,8 +169,8 @@ function prepopulateEditProfileForm(result) {
 }
 
 function updateProfile(result) {
-  document.getElementById("userFullName").innerHTML = result.fullName;
-  document.getElementById("userBio").innerHTML = result.bio;
+  document.getElementById("userFullName").innerText = result.fullName;
+  document.getElementById("userBio").innerText = result.bio;
 }
 
 function putRequestProfile() {
