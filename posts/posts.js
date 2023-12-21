@@ -36,7 +36,7 @@ async function displayAllUserPosts() {
       let cardHTML = `
         <div class="card" style="width: 18rem;">
             <div class="card-body" id="card-${index}">
-                <h5 class="card-title">${userName}</h5>
+                <a href="/profile/?username=${userName}"><h5 class="card-title">${userName}</h5></a>
                 <p class="card-text">${postText}</p>
                 <p class="card-text">${post.likes.length} Likes</p>
             </div>

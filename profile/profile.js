@@ -2,25 +2,52 @@
 
 window.onload = init;
 
-let userData;
-
 async function init() {
-  userData = getLoggedInUser();
-  viewProfilePosts();
-  viewUserInfo();
+  const urlParams = new URLSearchParams(location.search);
+  let currentUser = getLoginData().username;
+  let username = "";
+
+  // check if we're visiting someone else's profile
+  if (urlParams.has("username") === true) {
+    username = urlParams.get("username");
+  } else {
+    username = currentUser;
+  }
+
+  // check if the user exists from the given username in the URL params
+  const response = await getUserInfo(username);
+  if (response.ok) {
+    const userInfo = await response.json();
+    populateEditProfileForm(userInfo);
+    updateProfile(userInfo);
+  } else {
+    // if the response is not OK, then the given username doesn't exist
+    // redirect to the current user's profile page
+    window.location.href = "/profile";
+  }
+
+  const btnEditProfile = document.getElementById("btnEditProfile");
+  // remove the Edit Profile button on someone else's profile page
+  if (username !== currentUser) {
+    btnEditProfile.remove();
+    document.getElementById("modalEditProfile").remove();
+  } else {
+    btnEditProfile.classList.remove("d-none");
+  }
+
+  // change the user's @ tag and show their posts
+  changeUserTag(username);
+  viewProfilePosts(username);
 }
 
-// returns an object of a user
-// with properties: Token and Username
-async function getLoggedInUser() {
-  const loginData = getLoginData();
-
+// change the user's @ tag
+function changeUserTag(username) {
   document.getElementById("viewUser").innerHTML = `
-  @${loginData.username}</h1>
+    @${username}</h1>
   `;
 }
 
-function viewProfilePosts() {
+async function viewProfilePosts(username) {
   var myHeaders = new Headers();
 
   const loginData = getLoginData();
@@ -33,10 +60,7 @@ function viewProfilePosts() {
     redirect: "follow",
   };
 
-  fetch(
-    `${apiBaseURL}/api/posts?username=${loginData.username}`,
-    requestOptions
-  )
+  fetch(`${apiBaseURL}/api/posts?username=${username}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       let postNums = result.length;
@@ -49,11 +73,11 @@ function viewProfilePosts() {
       //for loop post iteration
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
-        console.log(element)
+        console.log(element);
 
-        if ((likes.length === true)) {
-          likes += 1; 
-        } 
+        if (likes.length === true) {
+          likes += 1;
+        }
 
         //Formatting time of post
         const timeStamp = element.createdAt;
@@ -93,8 +117,8 @@ function viewProfilePosts() {
       }
       document.getElementById("userPosts").innerHTML += posts;
 
-      if (likes == 0){
-        likes += 0
+      if (likes == 0) {
+        likes += 0;
       }
 
       document.getElementById("postLikes").innerHTML += likes;
@@ -103,12 +127,9 @@ function viewProfilePosts() {
 }
 
 //View user info with properties: fullname, un, bio, created and updated
-function viewUserInfo() {
+async function getUserInfo(username) {
   var myHeaders = new Headers();
   const loginData = getLoginData();
-
-  const userName = loginData.username;
-
   const userToken = loginData.token;
 
   myHeaders.append("Authorization", `Bearer ${userToken}`);
@@ -119,17 +140,12 @@ function viewUserInfo() {
     redirect: "follow",
   };
 
-  fetch(`${apiBaseURL}/api/users/${userName}`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      editProfile(result);
-      document.getElementById("userFullName").innerHTML = `<strong>${result.fullName}</strong>`;
-      document.getElementById("userBio").innerHTML = `${result.bio}`;
-    })
-    .catch((error) => console.log("error", error));
+  return fetch(`${apiBaseURL}/api/users/${username}`, requestOptions).catch(
+    (error) => console.log("error", error)
+  );
 }
 
-function editProfile(result) {
+function populateEditProfileForm(result) {
   document.getElementById("editFullName").innerHTML = result.fullName;
   document.getElementById("editBio").innerHTML = result.bio;
 }
@@ -178,5 +194,3 @@ function putRequestProfile() {
     })
     .finally(closeModal("modalEditProfile"));
 }
-
-
