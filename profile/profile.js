@@ -6,6 +6,7 @@ async function init() {
   const urlParams = new URLSearchParams(location.search);
   let currentUser = getLoginData().username;
   let username = "";
+  let userInfo;
 
   // check if we're visiting someone else's profile
   if (urlParams.has("username") === true) {
@@ -17,8 +18,8 @@ async function init() {
   // check if the user exists from the given username in the URL params
   const response = await getUserInfo(username);
   if (response.ok) {
-    const userInfo = await response.json();
-    populateEditProfileForm(userInfo);
+    userInfo = await response.json();
+    prepopulateEditProfileForm(userInfo);
     updateProfile(userInfo);
   } else {
     // if the response is not OK, then the given username doesn't exist
@@ -26,7 +27,28 @@ async function init() {
     window.location.href = "/profile";
   }
 
+  // Event listener for submitting the Edit Profile form
+  const btnSubmitEditProfile = document.getElementById("btnSubmitEditProfile");
+  btnSubmitEditProfile.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const formEditProfile = document.getElementById("formEditProfile");
+    if (formEditProfile.checkValidity()) {
+      putRequestProfile();
+    }
+
+    formEditProfile.classList.add("was-validated");
+  });
+
+  // Event listener for the Edit Profile button
+  // when this button is clicked, remove past form validations
+  // and prepopulate the Full Name and Bio fields
   const btnEditProfile = document.getElementById("btnEditProfile");
+  btnEditProfile.addEventListener("click", () => {
+    formEditProfile.classList.remove("was-validated");
+    prepopulateEditProfileForm(userInfo);
+  });
+
   // remove the Edit Profile button on someone else's profile page
   if (username !== currentUser) {
     btnEditProfile.remove();
@@ -145,9 +167,9 @@ async function getUserInfo(username) {
   );
 }
 
-function populateEditProfileForm(result) {
-  document.getElementById("editFullName").innerHTML = result.fullName;
-  document.getElementById("editBio").innerHTML = result.bio;
+function prepopulateEditProfileForm(result) {
+  document.getElementById("editFullName").value = result.fullName;
+  document.getElementById("editBio").value = result.bio;
 }
 
 function updateProfile(result) {

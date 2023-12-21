@@ -153,22 +153,22 @@
                     <!-- Edit Fullname -->
                     <div class="modal-body">
                         
-                        <form class="needs-validation" novalidate id="formCreatePost">
+                        <form class="needs-validation" novalidate id="formEditProfile">
                             Full Name
-                            <textarea class="form-control" id="editFullName" placeholder="Enter text" minlength="2" maxlength="255" rows="1" required></textarea>
+                            <textarea class="form-control" id="editFullName" placeholder="Enter text" minlength="1" maxlength="30" rows="1" required></textarea>
                             <div class="invalid-feedback">
-                                Your post must be at least 2 characters.
+                                Your full name must be at least 1 character.
                             </div>
                             <br>
                             Bio
-                            <textarea class="form-control" id="editBio" placeholder="Enter text" minlength="2" maxlength="255" rows="3" required></textarea>
+                            <textarea class="form-control" id="editBio" placeholder="Enter text" minlength="1" maxlength="255" rows="3" required></textarea>
                             <div class="invalid-feedback">
-                                Your post must be at least 2 characters.
+                                Your bio must be at least 1 character.
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <label for="btnSubmitPost" class="btn btn-primary" onclick="putRequestProfile()" tabindex="0">Update</label>
+                        <button id="btnSubmitEditProfile" class="btn btn-primary" tabindex="0">Update</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
