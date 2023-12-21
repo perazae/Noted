@@ -6,10 +6,42 @@ window.onload = init;
 function init() {
   const btnCreatePost = document.getElementById("btnCreatePost");
   btnCreatePost.addEventListener("click", clearForm);
-  displayAllUserPosts();
+  displayAllUserPosts(0);
 }
 
-async function displayAllUserPosts() {
+let index = 0
+//prevents previous posts from loading again
+let loading = false;
+//checks to see if there are more posts
+let hasMorePosts = true;
+let initialOffset = 10;
+/**This function will allow the user to load posts as they scroll
+ * in other words, it is an infinite scrolling function until the last post is displayed
+ */
+
+window.onscroll = async function (event) {
+  if (hasMorePosts && !loading && (window.innerHeight + window.scrollY + 40 >= document.body.offsetHeight)){
+    //Sets loading variable to true to prevent duplicates
+    loading = true;
+    
+    let data = await displayAllUserPosts(initialOffset);
+    initialOffset += 10;
+
+    //Set loading variable to false once everything is loaded
+    loading = false;
+
+    //if no more posts exist, it will stop
+    if (data.length === 0) {
+      hasMorePosts = false;
+    }
+
+    //Check if there are no more posts to load
+    if (!hasMorePosts) {
+      window.onscroll = null;
+    }
+  }
+};
+async function displayAllUserPosts(initialOffset) {
   const loginData = getLoginData();
   const token = loginData.token;
 
@@ -22,14 +54,15 @@ async function displayAllUserPosts() {
     redirect: "follow",
   };
 
+  let data;
   try {
-    const response = await fetch(apiBaseURL + "/api/posts", requestOptions);
-    const data = await response.json();
+    const response = await fetch(`${apiBaseURL}/api/posts?limit=10&offset=${initialOffset}`, requestOptions);
+    data = await response.json();
     //bootstrap card
     const postsContainer = document.getElementById("posts-container");
-    postsContainer.innerHTML = ""; // refresh card
+    // postsContainer.innerHTML = ""; // refresh card
     //loop to display data into card
-    data.forEach((post, index) => {
+    data.forEach((post) => {
       let userName = post.username;
       let postText = post.text;
 
@@ -50,15 +83,20 @@ async function displayAllUserPosts() {
       getLikeButton(parentNode, post.likes, post._id);
 
       // create the delete button for this post
-      createDeleteButton(parentNode, post._id)
+      createDeleteButton(parentNode, post._id);
+
+      index += 1;
     });
   } catch (error) {
     console.error("Error fetching data:", error);
   }
+
+  return data;
 }
 
 function createDeleteButton(parentNode, postId) {
   const deleteBtn = document.createElement("button");
+  //label and display button
   deleteBtn.innerHTML = "Delete";
   deleteBtn.classList.add("btn", "btn-danger");
 
@@ -189,14 +227,16 @@ async function deletePost(postId) {
   };
 
   try {
-    const response = await fetch(apiBaseURL + `/api/posts/${postId}`, requestOptions);
+    const response = await fetch(
+      apiBaseURL + `/api/posts/${postId}`,
+      requestOptions
+    );
     if (response.ok) {
       console.log(`Post with ID ${postId} deleted successfully`);
-      // displayAllUserPosts();
     } else {
       console.error("Error deleting post:", response.status);
     }
   } catch (error) {
     console.error("Error deleting post:", error);
   }
- }
+}
