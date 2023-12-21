@@ -60,6 +60,7 @@ async function init() {
   // change the user's @ tag and show their posts
   changeUserTag(username);
   viewProfilePosts(username);
+  displayFriends();
 }
 
 // change the user's @ tag
@@ -212,3 +213,46 @@ function putRequestProfile() {
     })
     .finally(closeModal("modalEditProfile"));
 }
+
+// Fetch friends
+function displayFriends() {
+  var myHeaders = new Headers();
+
+  const loginData = getLoginData();
+  const userToken = loginData.token;
+
+  myHeaders.append("Authorization", `Bearer ${userToken}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  let friendList = "";
+
+  fetch("http://microbloglite.us-east-2.elasticbeanstalk.com/api/users?limit=10&offset=5", requestOptions)
+    .then(response => response.json())
+    .then(friends => {
+      console.log(friends)
+      for (let index = 0; index < 10; index++) {
+        const friendUsername = friends[index].username;
+
+        // Check if the friendList already contains the current username
+        if (!friendList.includes(friendUsername)) {
+          let friendTemplate = `
+            <div class="list-group ">
+              <a href="/profile/?username=${friendUsername}" class="list-group-item list-group-item-action">@${friendUsername}</a>
+            </div>
+          `;
+          friendList += friendTemplate;
+        }
+      }
+      document.getElementById('profileFriends').innerHTML = friendList;
+    })
+    .catch(error => console.log('error', error));
+}
+
+
+
+
