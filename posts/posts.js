@@ -63,23 +63,11 @@ async function displayAllUserPosts(initialOffset) {
     // postsContainer.innerHTML = ""; // refresh card
     //loop to display data into card
     data.forEach((post) => {
-      let userName = post.username;
-      let postText = post.text;
 
-      let cardHTML = `
-        <div class="card" style="width: 18rem;">
-            <div class="card-body" id="card-${index}">
-                <a href="/profile/?username=${userName}"><h5 class="card-title">${userName}</h5></a>
-                <p class="card-text">${postText}</p>
-                <p class="card-text">${post.likes.length} Likes</p>
-            </div>
-        </div>
-      `;
-
-      postsContainer.insertAdjacentHTML("beforeend", cardHTML);
+      postsContainer.insertAdjacentHTML("beforeend", createUserPost(post));
 
       // insert the like button into the card body
-      const parentNode = document.getElementById(`card-${index}`);
+      const parentNode = document.getElementById(`${post._id}`);
       getLikeButton(parentNode, post.likes, post._id);
 
       // create the delete button for this post

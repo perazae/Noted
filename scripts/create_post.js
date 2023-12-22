@@ -87,9 +87,7 @@ function createUserPost(post) {
       <p class="card-text"><h4 class="text-center"><strong>${post.text}</strong></h4></p>
       <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
       </div>
-      <div class="text-center">
-      <a href="#" class="card-link">Like</a>
-      <a href="#" class="card-link">Comment</a>
+      <div id = "${post._id}">
       </div>
     </div>
   </div>
