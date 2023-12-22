@@ -9,21 +9,32 @@ function init() {
   displayAllUserPosts(0);
 }
 
-let index = 0
+let index = 0;
 //prevents previous posts from loading again
 let loading = false;
 //checks to see if there are more posts
 let hasMorePosts = true;
 let initialOffset = 10;
+
 /**This function will allow the user to load posts as they scroll
  * in other words, it is an infinite scrolling function until the last post is displayed
  */
 
+//Get the button
+let btnScrollToTop = document.getElementById("btn-back-to-top");
+
 window.onscroll = async function (event) {
-  if (hasMorePosts && !loading && (window.innerHeight + window.scrollY + 40 >= document.body.offsetHeight)){
+  // When the user scrolls down 20px from the top of the document, show the button
+  scrollFunction();
+
+  if (
+    hasMorePosts &&
+    !loading &&
+    window.innerHeight + window.scrollY + 40 >= document.body.offsetHeight
+  ) {
     //Sets loading variable to true to prevent duplicates
     loading = true;
-    
+
     let data = await displayAllUserPosts(initialOffset);
     initialOffset += 10;
 
@@ -42,6 +53,21 @@ window.onscroll = async function (event) {
   }
 };
 
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    btnScrollToTop.style.display = "block";
+  } else {
+    btnScrollToTop.style.display = "none";
+  }
+}
+// When the user clicks on the button, scroll to the top of the document
+btnScrollToTop.addEventListener("click", backToTop);
+
+function backToTop() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
 async function displayAllUserPosts(initialOffset) {
   const loginData = getLoginData();
   const token = loginData.token;
@@ -57,14 +83,16 @@ async function displayAllUserPosts(initialOffset) {
 
   let data;
   try {
-    const response = await fetch(`${apiBaseURL}/api/posts?limit=10&offset=${initialOffset}`, requestOptions);
+    const response = await fetch(
+      `${apiBaseURL}/api/posts?limit=10&offset=${initialOffset}`,
+      requestOptions
+    );
     data = await response.json();
     //bootstrap card
     const postsContainer = document.getElementById("posts-container");
     // postsContainer.innerHTML = ""; // refresh card
     //loop to display data into card
     data.forEach((post) => {
-
       postsContainer.insertAdjacentHTML("beforeend", createUserPost(post));
 
       const parentNode = document.getElementById(`btns-${post._id}`);
@@ -73,7 +101,7 @@ async function displayAllUserPosts(initialOffset) {
 
       // insert the like button into the card body
       getLikeButton(parentNode, post.likes, post._id);
-      
+
       index += 1;
     });
   } catch (error) {
