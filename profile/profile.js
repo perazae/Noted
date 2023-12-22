@@ -207,15 +207,17 @@ function displayFriends() {
 
         // Check if the friendList already contains the current username
         if (!friendList.includes(friendUsername)) {
-          let friendTemplate = `
-            <div class="list-group ">
-              <a href="/profile/?username=${friendUsername}" class="list-group-item list-group-item-action">@${friendUsername}</a>
-            </div>
-          `;
-          friendList += friendTemplate;
+          let friend = friendUsername;
+          friendList += `
+          <div class="list-group ">
+            <a href="/profile/?username=${friend}" class="list-group-item list-group-item-action">@${friend}</a>
+          </div>
+        `;
+        } 
+
         }
-      }
-      document.getElementById("profileFriends").innerHTML = friendList;
+        
+      document.getElementById('profileFriends').innerHTML = friendList;
     })
     .catch((error) => console.log("error", error));
 }

@@ -88,62 +88,65 @@
     </header>
 
     <main>
-      <!-- profile section -->
-      <div class="container">
-        <div class="row py-5 px-4">
-          <div class="col-12 col-md-9 mx-auto">
-            <!-- Profile widget -->
-            <div class="bg-white shadow rounded overflow-hidden">
-              <div class="px-4 pt-0 pb-4 cover">
-                <div class="media align-items-end profile-head">
-                  <div class="profile mr-3">
-                    <img
-                      src="https://southernplasticsurgery.com.au/wp-content/uploads/2013/10/user-placeholder.png"
-                      alt="Profile picture placeholder"
-                      width="130"
-                      class="rounded mb-2 img-thumbnail"
-                    />
-                    <a
-                      href="#"
-                      class="btn btn-outline-dark btn-sm btn-block d-none"
-                      id="btnEditProfile"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalEditProfile"
-                      >Edit profile</a
-                    >
-                  </div>
-                  <div class="media-body mb-5 text-white">
-                    <h3 class="mt-0 mb-0" id="userFullName"></h3>
-                    <p class="small mb-4" id="viewUser"></p>
-                  </div>
-                </div>
-              </div>
-              <div class="bg-light p-4 d-flex justify-content-end text-center">
-                <ul class="list-inline mb-0">
-                  <li class="list-inline-item">
-                    <h5
-                      class="font-weight-bold mb-0 d-block"
-                      id="postNumber"
-                    ></h5>
-                    <small class="text-muted">
-                      <i class="fas fa-image mr-1"></i>Posts</small
-                    >
-                  </li>
-                  <li class="list-inline-item">
-                    <h5
-                      class="font-weight-bold mb-0 d-block"
-                      id="postLikes"
-                    ></h5>
-                    <small class="text-muted">
-                      <i class="fas fa-user mr-1"> </i>Likes</small
-                    >
-                  </li>
-                </ul>
-              </div>
-              <div class="px-4 py-3">
-                <h5 class="mb-3">Bio</h5>
-                <div class="p-4 rounded shadow-sm bg-light">
-                  <p class="mb-0" id="userBio"></p>
+        <!-- profile section -->
+        <div class="container">
+            <div class="row py-5 px-4">
+                <div class="col-12 col-md-9 mx-auto">
+                    <!-- Profile widget -->
+                    <div class="bg-white shadow rounded overflow-hidden">
+                        <div class="px-4 pt-0 pb-4 cover">
+                            <div class="media align-items-end profile-head">
+
+                                <div class="profile mr-3">
+
+                                    <img src="https://southernplasticsurgery.com.au/wp-content/uploads/2013/10/user-placeholder.png"
+                                        alt="Profile picture placeholder" width="130"
+                                        class="rounded mb-2 img-thumbnail">
+                                    <a href="#" class="btn btn-outline-dark btn-sm btn-block d-none" id="btnEditProfile"
+                                        data-bs-toggle="modal" data-bs-target="#modalEditProfile">Edit profile</a>
+                                </div>
+                                <div class="media-body mb-5 text-white">
+                                    <h3 class="mt-0 mb-0" id="userFullName"></h3>
+                                    <p class="small mb-4" id="viewUser"></p>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="bg-light p-4 d-flex justify-content-end">
+                            
+                                <button class="btn btn-dark btn-sm z-3" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                                    <span class="material-icons"> groups </span>
+                                </button>
+                            </div>
+                        <div class="px-4 py-3">
+                            <h5 class="mb-3">Bio</h5>
+                            <div class="p-4 rounded shadow-sm bg-light">
+                                <p class="mb-0" id="userBio"></p>
+                            </div>
+                        </div>
+                        <div class="py-4 px-4">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <h5 class="mb-0">Recent posts</h5>
+                                <ul class="list-inline mb-0 text-center">
+                                    <li class="list-inline-item">
+                                        <h5 class="font-weight-bold mb-0 d-block" id="postNumber"></h5>
+                                        <small class="text-muted">
+                                            <i class="fas fa-image mr-1"></i>Posts</small>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <h5 class="font-weight-bold mb-0 d-block" id="postLikes"></h5>
+                                        <small class="text-muted"> <i class="fas fa-user mr-1">
+    
+                                            </i>Likes</small>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="container">
+                                <div class="row container justify-content-evenly" id="userPosts">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
               </div>
               <div class="py-4 px-4">
