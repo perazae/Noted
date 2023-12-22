@@ -1,1 +1,11 @@
 /* Posts Page CSS */
+html, body {
+    overflow-y: scroll !important;
+  }
+
+  #btn-back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+  }
