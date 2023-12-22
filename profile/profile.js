@@ -2,141 +2,143 @@
 
 window.onload = init;
 
-let userData;
-
 async function init() {
-  userData = getLoggedInUser();
-  viewProfilePosts();
-  viewUserInfo();
+  const urlParams = new URLSearchParams(location.search);
+  let currentUser = getLoginData().username;
+  let username = "";
+  let userInfo;
+
+  // check if we're visiting someone else's profile
+  if (urlParams.has("username") === true) {
+    username = urlParams.get("username");
+  } else {
+    username = currentUser;
+  }
+
+  // check if the user exists from the given username in the URL params
+  const response = await getUserInfo(username);
+  if (response.ok) {
+    userInfo = await response.json();
+    prepopulateEditProfileForm(userInfo);
+    updateProfile(userInfo);
+  } else {
+    // if the response is not OK, then the given username doesn't exist
+    // redirect to the current user's profile page
+    window.location.href = "/profile";
+  }
+
+  // Event listener for submitting the Edit Profile form
+  const btnSubmitEditProfile = document.getElementById("btnSubmitEditProfile");
+  btnSubmitEditProfile.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const formEditProfile = document.getElementById("formEditProfile");
+    if (formEditProfile.checkValidity()) {
+      putRequestProfile();
+    }
+
+    formEditProfile.classList.add("was-validated");
+  });
+
+  // Event listener for the Edit Profile button
+  // when this button is clicked, remove past form validations
+  // and prepopulate the Full Name and Bio fields
+  const btnEditProfile = document.getElementById("btnEditProfile");
+  btnEditProfile.addEventListener("click", () => {
+    formEditProfile.classList.remove("was-validated");
+  });
+
+  // remove the Edit Profile button on someone else's profile page
+  if (username !== currentUser) {
+    btnEditProfile.remove();
+    document.getElementById("modalEditProfile").remove();
+  } else {
+    btnEditProfile.classList.remove("d-none");
+  }
+
+  // change the user's @ tag and show their posts
+  changeUserTag(username);
+  viewProfilePosts(username);
+  displayFriends();
 }
 
-// returns an object of a user
-// with properties: Token and Username
-async function getLoggedInUser() {
-  const loginData = getLoginData();
-
+// change the user's @ tag
+function changeUserTag(username) {
   document.getElementById("viewUser").innerHTML = `
-  @${loginData.username}</h1>
+    @${username}</h1>
   `;
 }
 
-function viewProfilePosts() {
-  var myHeaders = new Headers();
+async function viewProfilePosts(username) {
+  const myHeaders = new Headers();
 
   const loginData = getLoginData();
   const userToken = loginData.token;
   myHeaders.append("Authorization", `Bearer ${userToken}`);
 
-  var requestOptions = {
+  const requestOptions = {
     method: "GET",
     headers: myHeaders,
     redirect: "follow",
   };
 
-  fetch(
-    `${apiBaseURL}/api/posts?username=${loginData.username}`,
-    requestOptions
-  )
+  fetch(`${apiBaseURL}/api/posts?username=${username}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      let postNums = result.length;
+      let numPosts = result.length;
 
       //Displaying number of posts on profile
-      document.getElementById("postNumber").innerHTML = postNums;
-      let posts = "";
-      let likes = "";
+      document.getElementById("postNumber").innerText = numPosts;
+      let numLikes = 0;
 
       //for loop post iteration
-      for (let index = 0; index < result.length; index++) {
-        const element = result[index];
+      for (let index = 0; index < numPosts; index++) {
+        const post = result[index];
+        console.log(post);
 
-        if ((likes = true)) {
-          likes += 1;
-        }
+        numLikes += post.likes.length;
 
-        //Formatting time of post
-        const timeStamp = element.createdAt;
-        const date = new Date(timeStamp);
-
-        const options = {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-          hour12: true,
-        };
-
-        //Newly formatted time of post to display
-        const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-          date
-        );
-
-        const userPost = `
-      <div class="card m-3 col-12 shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">@${element.username}</h6>
-        <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
-        <p class="card-text"><h4 class="text-center"><strong>${element.text}</strong></h4></p>
-        <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
-        </div>
-        <div class="text-center">
-        <a href="#" class="card-link">Like</a>
-        <a href="#" class="card-link">Comment</a>
-        </div>
-      </div>
-    </div>
-      `;
-        posts += userPost;
+        document
+          .getElementById("userPosts")
+          .insertAdjacentHTML("beforebegin", createUserPost(post));
       }
-      document.getElementById("userPosts").innerHTML += posts;
-      document.getElementById("postLikes").innerHTML += likes;
+
+      document.getElementById("postLikes").innerText = numLikes;
     })
     .catch((error) => console.log("error", error));
 }
 
 //View user info with properties: fullname, un, bio, created and updated
-function viewUserInfo() {
-  var myHeaders = new Headers();
+async function getUserInfo(username) {
+  const myHeaders = new Headers();
   const loginData = getLoginData();
-
-  const userName = loginData.username;
-
   const userToken = loginData.token;
 
   myHeaders.append("Authorization", `Bearer ${userToken}`);
 
-  var requestOptions = {
+  const requestOptions = {
     method: "GET",
     headers: myHeaders,
     redirect: "follow",
   };
 
-  fetch(`${apiBaseURL}/api/users/${userName}`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      editProfile(result);
-      document.getElementById(
-        "userFullName"
-      ).innerHTML = `<strong>${result.fullName}</strong>`;
-      document.getElementById("userBio").innerHTML = `${result.bio}`;
-    })
-    .catch((error) => console.log("error", error));
+  return fetch(`${apiBaseURL}/api/users/${username}`, requestOptions).catch(
+    (error) => console.log("error", error)
+  );
 }
 
-function editProfile(result) {
-  document.getElementById("editFullName").innerHTML = result.fullName;
-  document.getElementById("editBio").innerHTML = result.bio;
+function prepopulateEditProfileForm(result) {
+  document.getElementById("editFullName").value = result.fullName;
+  document.getElementById("editBio").value = result.bio;
 }
 
 function updateProfile(result) {
-  document.getElementById("userFullName").innerHTML = result.fullName;
-  document.getElementById("userBio").innerHTML = result.bio;
+  document.getElementById("userFullName").innerText = result.fullName;
+  document.getElementById("userBio").innerText = result.bio;
 }
 
 function putRequestProfile() {
-  var myHeaders = new Headers();
+  const myHeaders = new Headers();
 
   const loginData = getLoginData();
 
@@ -151,13 +153,13 @@ function putRequestProfile() {
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `Bearer ${userToken}`);
 
-  var raw = JSON.stringify({
+  const raw = JSON.stringify({
     //Grab values from edit profile values: fullname and bio
     bio: `${bioValue}`,
     fullName: `${fullNameValue}`,
   });
 
-  var requestOptions = {
+  const requestOptions = {
     method: "PUT",
     headers: myHeaders,
     body: raw,
@@ -168,17 +170,52 @@ function putRequestProfile() {
     .then((response) => response.json())
     .then((result) => {
       updateProfile(result);
-      closeModal();
+      prepopulateEditProfileForm(result);
     })
     .catch((error) => {
       console.log("error", error);
-      closeModal();
-    });
+    })
+    .finally(closeModal("modalEditProfile"));
 }
 
-function closeModal() {
-  // Manually close the modal
-  const modalEditProfile = document.getElementById("modalEditProfile");
-  const modal = bootstrap.Modal.getInstance(modalEditProfile);
-  modal.hide();
+// Fetch friends
+function displayFriends() {
+  var myHeaders = new Headers();
+
+  const loginData = getLoginData();
+  const userToken = loginData.token;
+
+  myHeaders.append("Authorization", `Bearer ${userToken}`);
+
+  var requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  let friendList = "";
+
+  fetch(
+    "http://microbloglite.us-east-2.elasticbeanstalk.com/api/users?limit=10&offset=5",
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((friends) => {
+      console.log(friends);
+      for (let index = 0; index < 10; index++) {
+        const friendUsername = friends[index].username;
+
+        // Check if the friendList already contains the current username
+        if (!friendList.includes(friendUsername)) {
+          let friendTemplate = `
+            <div class="list-group ">
+              <a href="/profile/?username=${friendUsername}" class="list-group-item list-group-item-action">@${friendUsername}</a>
+            </div>
+          `;
+          friendList += friendTemplate;
+        }
+      }
+      document.getElementById("profileFriends").innerHTML = friendList;
+    })
+    .catch((error) => console.log("error", error));
 }
