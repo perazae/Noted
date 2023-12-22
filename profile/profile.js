@@ -46,7 +46,6 @@ async function init() {
   const btnEditProfile = document.getElementById("btnEditProfile");
   btnEditProfile.addEventListener("click", () => {
     formEditProfile.classList.remove("was-validated");
-    prepopulateEditProfileForm(userInfo);
   });
 
   // remove the Edit Profile button on someone else's profile page
@@ -171,6 +170,7 @@ function putRequestProfile() {
     .then((response) => response.json())
     .then((result) => {
       updateProfile(result);
+      prepopulateEditProfileForm(result);
     })
     .catch((error) => {
       console.log("error", error);
@@ -188,17 +188,20 @@ function displayFriends() {
   myHeaders.append("Authorization", `Bearer ${userToken}`);
 
   var requestOptions = {
-    method: 'GET',
+    method: "GET",
     headers: myHeaders,
-    redirect: 'follow'
+    redirect: "follow",
   };
 
   let friendList = "";
 
-  fetch("http://microbloglite.us-east-2.elasticbeanstalk.com/api/users?limit=10&offset=5", requestOptions)
-    .then(response => response.json())
-    .then(friends => {
-      console.log(friends)
+  fetch(
+    "http://microbloglite.us-east-2.elasticbeanstalk.com/api/users?limit=10&offset=5",
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((friends) => {
+      console.log(friends);
       for (let index = 0; index < 10; index++) {
         const friendUsername = friends[index].username;
 
@@ -212,11 +215,7 @@ function displayFriends() {
           friendList += friendTemplate;
         }
       }
-      document.getElementById('profileFriends').innerHTML = friendList;
+      document.getElementById("profileFriends").innerHTML = friendList;
     })
-    .catch(error => console.log('error', error));
+    .catch((error) => console.log("error", error));
 }
-
-
-
-
