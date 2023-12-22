@@ -94,13 +94,19 @@ async function viewProfilePosts(username) {
       //for loop post iteration
       for (let index = 0; index < numPosts; index++) {
         const post = result[index];
-        console.log(post);
 
         numLikes += post.likes.length;
 
         document
-          .getElementById("userPosts")
+          .getElementById("posts-container")
           .insertAdjacentHTML("beforebegin", createUserPost(post));
+
+        const parentNode = document.getElementById(`btns-${post._id}`);
+        // create the delete button for this post
+        createDeleteButton(parentNode, post._id);
+
+        // insert the like button into the card body
+        getLikeButton(parentNode, post.likes, post._id);
       }
 
       document.getElementById("postLikes").innerText = numLikes;
@@ -207,14 +213,15 @@ function displayFriends() {
 
         // Check if the friendList already contains the current username
         if (!friendList.includes(friendUsername)) {
-          let friendTemplate = `
-            <div class="list-group ">
-              <a href="/profile/?username=${friendUsername}" class="list-group-item list-group-item-action">@${friendUsername}</a>
-            </div>
-          `;
-          friendList += friendTemplate;
+          let friend = friendUsername;
+          friendList += `
+          <div class="list-group ">
+            <a href="/profile/?username=${friend}" class="list-group-item list-group-item-action">@${friend}</a>
+          </div>
+        `;
         }
       }
+
       document.getElementById("profileFriends").innerHTML = friendList;
     })
     .catch((error) => console.log("error", error));
