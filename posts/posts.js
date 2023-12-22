@@ -92,8 +92,8 @@ function createDeleteButton(parentNode, postId) {
   deleteBtn.addEventListener("click", async () => {
     await deletePost(postId);
 
-    //remove the card/parent node
-    parentNode.remove();
+    //remove the whole card by getting the top ancestor
+    parentNode.parentNode.parentNode.remove();
   });
 
   //append the delete button to the parent node

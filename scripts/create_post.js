@@ -88,10 +88,6 @@ function createUserPost(post) {
         <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
       </div>
       <div id="btns-${post._id}">
-        <div class="d-flex">
-          <div class="w-50 h-25 border border-dark">a</div>
-          <div class="w-50 h-25 border border-dark">b</div>
-        </div>
       </div>
     </div>
   </div>
