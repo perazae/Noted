@@ -56,6 +56,11 @@ function closeModal(modalElementId) {
   modal.hide();
 }
 
+/**
+ * This function accepts an object containing the properties of a post
+ * @param {Object} post
+ * @returns {string} HTML
+ */
 function createUserPost(post) {
   //Formatting time of post
   const timeStamp = post.createdAt;
