@@ -84,10 +84,14 @@ function createUserPost(post) {
     <div class="card-body">
       <h5 class="card-title">@${post.username}</h5>
       <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
-      <p class="card-text"><h4 class="text-center"><strong>${post.text}</strong></h4></p>
-      <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
+        <p class="card-text"><h4 class="text-center"><strong>${post.text}</strong></h4></p>
+        <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
       </div>
-      <div id = "${post._id}">
+      <div id="btns-${post._id}">
+        <div class="d-flex">
+          <div class="w-50 h-25 border border-dark">a</div>
+          <div class="w-50 h-25 border border-dark">b</div>
+        </div>
       </div>
     </div>
   </div>

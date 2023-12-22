@@ -1,12 +1,13 @@
 .btn-like {
-  width: 10rem;
-  height: 8rem;
+  display: block;
+  margin: auto;
+  width: 1.25rem;
+  height: 1rem;
 
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 80%;
+  left: 49.25%;
   transform: translate(-50%, -50%);
-
   cursor: pointer;
 }
 
@@ -21,8 +22,8 @@
 
   position: absolute;
 
-  width: 5rem;
-  height: 8rem;
+  width: 1.25rem;
+  height: 2rem;
 
   background: #9ca3af;
   border-radius: 5rem 5em 1rem 1rem;
@@ -31,7 +32,7 @@
 }
 
 .btn-like::before {
-  left: 5rem;
+  left: 1.25rem;
   transform: rotate(-45deg);
   transform-origin: 0 100%;
 }

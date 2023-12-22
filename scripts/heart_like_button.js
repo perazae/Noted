@@ -3,6 +3,7 @@
 async function playLikeAnimation(button) {
   const COLOR_RED = "#eb2940";
   const COLOR_WHITE = "#f7fafe";
+  const COLOR_BLACK = "#111111";
   const DURATION_MULTIPLIER = 20;
 
   const moTimeline = new mojs.Timeline();
@@ -11,13 +12,13 @@ async function playLikeAnimation(button) {
   const moTween1 = new mojs.Burst({
     parent: button,
     angle: { 0: 45 },
-    y: -10,
+    // y: -10,
     count: 8,
     radius: 130,
     children: {
       shape: "circle",
       radius: 28,
-      fill: [COLOR_RED, COLOR_WHITE],
+      fill: [COLOR_RED, COLOR_BLACK],
       duration: 60 * DURATION_MULTIPLIER,
     },
   });

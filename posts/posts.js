@@ -66,13 +66,13 @@ async function displayAllUserPosts(initialOffset) {
 
       postsContainer.insertAdjacentHTML("beforeend", createUserPost(post));
 
-      // insert the like button into the card body
-      const parentNode = document.getElementById(`${post._id}`);
-      getLikeButton(parentNode, post.likes, post._id);
-
+      const parentNode = document.getElementById(`btns-${post._id}`);
       // create the delete button for this post
       createDeleteButton(parentNode, post._id);
 
+      // insert the like button into the card body
+      getLikeButton(parentNode, post.likes, post._id);
+      
       index += 1;
     });
   } catch (error) {
@@ -86,7 +86,7 @@ function createDeleteButton(parentNode, postId) {
   const deleteBtn = document.createElement("button");
   //label and display button
   deleteBtn.innerHTML = "Delete";
-  deleteBtn.classList.add("btn", "btn-danger");
+  deleteBtn.classList.add("btn", "btn-danger", "d-block", "ms-auto");
 
   //add a click event listener to the delete button
   deleteBtn.addEventListener("click", async () => {

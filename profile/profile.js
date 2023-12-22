@@ -99,7 +99,7 @@ async function viewProfilePosts(username) {
         numLikes += post.likes.length;
 
         document
-          .getElementById("userPosts")
+          .getElementById("posts-container")
           .insertAdjacentHTML("beforebegin", createUserPost(post));
       }
 
