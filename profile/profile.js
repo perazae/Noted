@@ -46,7 +46,6 @@ async function init() {
   const btnEditProfile = document.getElementById("btnEditProfile");
   btnEditProfile.addEventListener("click", () => {
     formEditProfile.classList.remove("was-validated");
-    prepopulateEditProfileForm(userInfo);
   });
 
   // remove the Edit Profile button on someone else's profile page
@@ -107,42 +106,6 @@ async function viewProfilePosts(username) {
       document.getElementById("postLikes").innerText = numLikes;
     })
     .catch((error) => console.log("error", error));
-}
-
-function createUserPost(post) {
-  //Formatting time of post
-  const timeStamp = post.createdAt;
-  const date = new Date(timeStamp);
-
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: true,
-  };
-
-  //Newly formatted time of post to display
-  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
-
-  const userPost = `
-  <div class="card w-100 shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">@${post.username}</h5>
-      <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
-      <p class="card-text"><h4 class="text-center"><strong>${post.text}</strong></h4></p>
-      <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
-      </div>
-      <div class="text-center">
-      <a href="#" class="card-link">Like</a>
-      <a href="#" class="card-link">Comment</a>
-      </div>
-    </div>
-  </div>
-  `;
-  return userPost;
 }
 
 //View user info with properties: fullname, un, bio, created and updated
@@ -207,6 +170,7 @@ function putRequestProfile() {
     .then((response) => response.json())
     .then((result) => {
       updateProfile(result);
+      prepopulateEditProfileForm(result);
     })
     .catch((error) => {
       console.log("error", error);
@@ -224,17 +188,20 @@ function displayFriends() {
   myHeaders.append("Authorization", `Bearer ${userToken}`);
 
   var requestOptions = {
-    method: 'GET',
+    method: "GET",
     headers: myHeaders,
-    redirect: 'follow'
+    redirect: "follow",
   };
 
   let friendList = "";
 
-  fetch("http://microbloglite.us-east-2.elasticbeanstalk.com/api/users?limit=10&offset=5", requestOptions)
-    .then(response => response.json())
-    .then(friends => {
-      console.log(friends)
+  fetch(
+    "http://microbloglite.us-east-2.elasticbeanstalk.com/api/users?limit=10&offset=5",
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((friends) => {
+      console.log(friends);
       for (let index = 0; index < 10; index++) {
         const friendUsername = friends[index].username;
 
@@ -248,11 +215,7 @@ function displayFriends() {
           friendList += friendTemplate;
         }
       }
-      document.getElementById('profileFriends').innerHTML = friendList;
+      document.getElementById("profileFriends").innerHTML = friendList;
     })
-    .catch(error => console.log('error', error));
+    .catch((error) => console.log("error", error));
 }
-
-
-
-
