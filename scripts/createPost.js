@@ -32,8 +32,13 @@ function createPost() {
 
   fetch(apiBaseURL + "/api/posts", options)
     .then((response) => response.json())
-    .then((data) => resetCreatePostModal())
-    .catch((error) => alert("Ran into server error when creating post"));
+    .then((post) => {
+      resetCreatePostModal();
+      showToast(true, "You created a new post!");
+      addPostToContainer("afterbegin", post);
+      updateProfilePostsNumber(1); // add 1 to the number of posts
+    })
+    .catch((error) => showToast(false, "ERROR: Failed to create post"));
 }
 
 // Reset form input fields and close modal
@@ -82,7 +87,9 @@ function createUserPost(post) {
   const userPost = `
   <div class="card w-100 shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
     <div class="card-body">
-      <h5 class="card-title">@${post.username}</h5>
+      <a href="/profile/?username=${post.username}" class="text-decoration-none text-dark">
+        <h5 class="card-title">@${post.username}</h5>
+      </a>
       <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
         <p class="card-text"><h4 class="text-center"><strong>${post.text}</strong></h4></p>
         <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
@@ -93,4 +100,19 @@ function createUserPost(post) {
   </div>
   `;
   return userPost;
+}
+
+// Add new posts to the top of the posts container
+function addPostToContainer(position, post) {
+  const postsContainer = document.getElementById("posts-container");
+  postsContainer.insertAdjacentHTML(position, createUserPost(post));
+
+  const parentNode = document.getElementById(`btns-${post._id}`);
+  // create the delete button for this post
+  if (post.username === getLoginData().username) {
+    createDeleteButton(parentNode, post._id, post.likes?.length);
+  }
+
+  // insert the like button into the card body
+  getLikeButton(parentNode, post.likes, post._id);
 }

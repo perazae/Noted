@@ -1,4 +1,4 @@
-function createDeleteButton(parentNode, postId) {
+function createDeleteButton(parentNode, postId, postNumLikes = 0) {
   const deleteBtn = document.createElement("button");
   //label and display button
   deleteBtn.innerHTML = "Delete";
@@ -6,10 +6,18 @@ function createDeleteButton(parentNode, postId) {
 
   //add a click event listener to the delete button
   deleteBtn.addEventListener("click", async () => {
-    await deletePost(postId);
+    const response = await deletePost(postId);
 
-    //remove the whole card by getting the top ancestor
-    parentNode.parentNode.parentNode.remove();
+    if (response.ok) {
+      //remove the whole card by getting the top ancestor
+      parentNode.parentNode.parentNode.remove();
+      updateProfilePostsNumber(-1); // subtract 1 from the number of posts
+      // subtract the number of likes on the post from total likes
+      updateProfileLikes(postNumLikes * -1);
+      showToast(true, "Post successfully deleted!");
+    } else {
+      showToast(false, "Oh no! Failed to delete the post.");
+    }
   });
 
   //append the delete button to the parent node
@@ -21,7 +29,7 @@ function createDeleteButton(parentNode, postId) {
  * the corresponding post has an active "Like" on it.
  * In other words, this post has already been liked by the current user.
  */
- function createLikedButton(parentNode, postId, likeId) {
+function createLikedButton(parentNode, postId, likeId) {
   const btn = document.createElement("div");
   btn.classList.add("btn-like", "liked");
 
@@ -37,8 +45,9 @@ function createDeleteButton(parentNode, postId) {
     if (response.ok) {
       btn.remove();
       createUnlikedButton(parentNode, postId);
+      updateProfileLikes(-1);
     } else {
-      alert("Ran into error when unliking post");
+      showToast(false, "Oh no! Failed to unlike the post.");
     }
   });
   parentNode.appendChild(btn);
@@ -66,11 +75,9 @@ function createUnlikedButton(parentNode, postId) {
       playLikeAnimation(btn);
       const like = await response.json();
       createLikedButton(parentNode, postId, like._id);
-
-      // removing the button prevents the animation from playing
-      // btn.remove();
+      updateProfileLikes(1);
     } else {
-      alert("Ran into error when liking post");
+      showToast(false, "Oh no! Failed to like the post.");
     }
   });
   parentNode.appendChild(btn);
@@ -78,12 +85,13 @@ function createUnlikedButton(parentNode, postId) {
 
 // return the like id of the post that the current user has liked
 function isLiked(likesArray) {
+  if (!likesArray) return 0;
+
   for (let i = 0; i < likesArray.length; i++) {
     if (likesArray[i].username === getLoginData().username) {
       return likesArray[i]._id;
     }
   }
-  return 0;
 }
 
 function getLikeButton(parentNode, likesArray, postId) {
@@ -130,17 +138,19 @@ async function deletePost(postId) {
     },
   };
 
-  try {
-    const response = await fetch(
-      apiBaseURL + `/api/posts/${postId}`,
-      requestOptions
-    );
-    if (response.ok) {
-      console.log(`Post with ID ${postId} deleted successfully`);
-    } else {
-      console.error("Error deleting post:", response.status);
-    }
-  } catch (error) {
-    console.error("Error deleting post:", error);
+  return fetch(apiBaseURL + `/api/posts/${postId}`, requestOptions);
+}
+
+function updateProfilePostsNumber(numPosts) {
+  const postNumber = document.getElementById("postNumber");
+  if (postNumber) {
+    postNumber.textContent = parseInt(postNumber.textContent) + numPosts;
+  }
+}
+
+function updateProfileLikes(numLikes) {
+  const postLikes = document.getElementById("postLikes");
+  if (postLikes) {
+    postLikes.textContent = parseInt(postLikes.textContent) + numLikes;
   }
 }

@@ -88,7 +88,7 @@ async function viewProfilePosts(username) {
       let numPosts = result.length;
 
       //Displaying number of posts on profile
-      document.getElementById("postNumber").innerText = numPosts;
+      document.getElementById("postNumber").textContent = numPosts;
       let numLikes = 0;
 
       //for loop post iteration
@@ -97,21 +97,12 @@ async function viewProfilePosts(username) {
 
         numLikes += post.likes.length;
 
-        document
-          .getElementById("posts-container")
-          .insertAdjacentHTML("beforebegin", createUserPost(post));
-
-        const parentNode = document.getElementById(`btns-${post._id}`);
-        // create the delete button for this post
-        createDeleteButton(parentNode, post._id);
-
-        // insert the like button into the card body
-        getLikeButton(parentNode, post.likes, post._id);
+        addPostToContainer("beforeend", post);
       }
 
-      document.getElementById("postLikes").innerText = numLikes;
+      document.getElementById("postLikes").textContent = numLikes;
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => showToast(false, "Error retrieving posts."));
 }
 
 //View user info with properties: fullname, un, bio, created and updated
@@ -129,7 +120,7 @@ async function getUserInfo(username) {
   };
 
   return fetch(`${apiBaseURL}/api/users/${username}`, requestOptions).catch(
-    (error) => console.log("error", error)
+    (error) => showToast(false, "Error retrieving user information.")
   );
 }
 
@@ -139,8 +130,8 @@ function prepopulateEditProfileForm(result) {
 }
 
 function updateProfile(result) {
-  document.getElementById("userFullName").innerText = result.fullName;
-  document.getElementById("userBio").innerText = result.bio;
+  document.getElementById("userFullName").textContent = result.fullName;
+  document.getElementById("userBio").textContent = result.bio;
 }
 
 function putRequestProfile() {
@@ -179,7 +170,7 @@ function putRequestProfile() {
       prepopulateEditProfileForm(result);
     })
     .catch((error) => {
-      console.log("error", error);
+      showToast(false, "Ran into error trying to update user information.");
     })
     .finally(closeModal("modalEditProfile"));
 }
@@ -201,10 +192,7 @@ function displayFriends() {
 
   let friendList = "";
 
-  fetch(
-    "http://microbloglite.us-east-2.elasticbeanstalk.com/api/users?limit=10&offset=5",
-    requestOptions
-  )
+  fetch(`${apiBaseURL}/api/users?limit=10&offset=5`, requestOptions)
     .then((response) => response.json())
     .then((friends) => {
       console.log(friends);
@@ -224,5 +212,5 @@ function displayFriends() {
 
       document.getElementById("profileFriends").innerHTML = friendList;
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => showToast(false, "Error retrieving friend list."));
 }

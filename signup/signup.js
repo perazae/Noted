@@ -8,12 +8,12 @@ signupForm.onsubmit = async function (event) {
   // Prevent the form from refreshing the page,
   // as it will do by default when the Submit event is triggered:
   event.preventDefault();
-  
+
   const fullName = signupForm.fullName.value;
   const username = signupForm.username.value;
   const password = signupForm.password.value;
 
-  if (!fullName.trim() || !username.trim() || !password.trim()) return;
+  if (!isGoodInputs(fullName, username, password)) return;
 
   // We can use signupForm.username (for example) to access
   // the input element in the form which has the ID of "username".
@@ -33,7 +33,7 @@ signupForm.onsubmit = async function (event) {
 
   const response = await createUser(userData);
   if (!response.ok) {
-    alert("Username has already been taken.");
+    document.getElementById("error-msg").classList.remove("d-none");
     // Re-enable the button after the fetch request has been completed:
     signupForm.signupButton.disabled = false;
     signupForm.signupButton.textContent = "Sign Up";
@@ -43,3 +43,9 @@ signupForm.onsubmit = async function (event) {
     await login({ username, password });
   }
 };
+
+function isGoodInputs(fullName, username, password) {
+  if (!fullName.trim() || !username.trim() || !password.trim()) return false;
+  if (username.length < 3) return false;
+  return true;
+}
