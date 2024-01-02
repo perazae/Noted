@@ -1,4 +1,4 @@
-function createDeleteButton(parentNode, postId) {
+function createDeleteButton(parentNode, postId, postNumLikes = 0) {
   const deleteBtn = document.createElement("button");
   //label and display button
   deleteBtn.innerHTML = "Delete";
@@ -11,6 +11,9 @@ function createDeleteButton(parentNode, postId) {
     if (response.ok) {
       //remove the whole card by getting the top ancestor
       parentNode.parentNode.parentNode.remove();
+      updateProfilePostsNumber(-1); // subtract 1 from the number of posts
+      // subtract the number of likes on the post from total likes
+      updateProfileLikes(postNumLikes * -1);
       showToast(true, "Post successfully deleted!");
     } else {
       showToast(false, "Oh no! Failed to delete the post.");
@@ -42,6 +45,7 @@ function createLikedButton(parentNode, postId, likeId) {
     if (response.ok) {
       btn.remove();
       createUnlikedButton(parentNode, postId);
+      updateProfileLikes(-1);
     } else {
       showToast(false, "Oh no! Failed to unlike the post.");
     }
@@ -71,6 +75,7 @@ function createUnlikedButton(parentNode, postId) {
       playLikeAnimation(btn);
       const like = await response.json();
       createLikedButton(parentNode, postId, like._id);
+      updateProfileLikes(1);
     } else {
       showToast(false, "Oh no! Failed to like the post.");
     }
@@ -134,4 +139,18 @@ async function deletePost(postId) {
   };
 
   return fetch(apiBaseURL + `/api/posts/${postId}`, requestOptions);
+}
+
+function updateProfilePostsNumber(numPosts) {
+  const postNumber = document.getElementById("postNumber");
+  if (postNumber) {
+    postNumber.textContent = parseInt(postNumber.textContent) + numPosts;
+  }
+}
+
+function updateProfileLikes(numLikes) {
+  const postLikes = document.getElementById("postLikes");
+  if (postLikes) {
+    postLikes.textContent = parseInt(postLikes.textContent) + numLikes;
+  }
 }

@@ -36,6 +36,7 @@ function createPost() {
       resetCreatePostModal();
       showToast(true, "You created a new post!");
       addPostToContainer("afterbegin", post);
+      updateProfilePostsNumber(1); // add 1 to the number of posts
     })
     .catch((error) => showToast(false, "ERROR: Failed to create post"));
 }
@@ -106,7 +107,7 @@ function addPostToContainer(position, post) {
 
   const parentNode = document.getElementById(`btns-${post._id}`);
   // create the delete button for this post
-  createDeleteButton(parentNode, post._id);
+  createDeleteButton(parentNode, post._id, post.likes?.length);
 
   // insert the like button into the card body
   getLikeButton(parentNode, post.likes, post._id);

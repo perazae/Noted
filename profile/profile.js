@@ -88,7 +88,7 @@ async function viewProfilePosts(username) {
       let numPosts = result.length;
 
       //Displaying number of posts on profile
-      document.getElementById("postNumber").innerText = numPosts;
+      document.getElementById("postNumber").textContent = numPosts;
       let numLikes = 0;
 
       //for loop post iteration
@@ -100,7 +100,7 @@ async function viewProfilePosts(username) {
         addPostToContainer("beforeend", post);
       }
 
-      document.getElementById("postLikes").innerText = numLikes;
+      document.getElementById("postLikes").textContent = numLikes;
     })
     .catch((error) => showToast(false, "Error retrieving posts."));
 }
@@ -130,8 +130,8 @@ function prepopulateEditProfileForm(result) {
 }
 
 function updateProfile(result) {
-  document.getElementById("userFullName").innerText = result.fullName;
-  document.getElementById("userBio").innerText = result.bio;
+  document.getElementById("userFullName").textContent = result.fullName;
+  document.getElementById("userBio").textContent = result.bio;
 }
 
 function putRequestProfile() {
