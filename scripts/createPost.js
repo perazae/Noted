@@ -108,9 +108,10 @@ function addPostToContainer(position, post) {
   postsContainer.insertAdjacentHTML(position, createUserPost(post));
 
   const parentNode = document.getElementById(`btns-${post._id}`);
+  parentNode.dataset.likes = post.likes ? post.likes.length : 0;
   // create the delete button for this post
   if (post.username === getLoginData().username) {
-    createDeleteButton(parentNode, post._id, post.likes?.length);
+    createDeleteButton(parentNode, post._id);
   }
 
   // insert the like button into the card body
