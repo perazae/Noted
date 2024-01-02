@@ -33,6 +33,18 @@
                 return false;
             }
         }
+        else if ($(input).attr('name') == 'username') {
+            let errorMsg = $('#input-username');
+            
+            if($(input).val().trim() == ''){
+                $(errorMsg).data('validate', 'Username is required')
+                return false;
+            }
+            else if ($(input).val().length < 3) {
+                $(errorMsg).attr('data-validate', 'Minimum 3 characters')
+                return false;
+            }
+        }
         else {
             if($(input).val().trim() == ''){
                 return false;

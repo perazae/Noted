@@ -13,7 +13,7 @@ signupForm.onsubmit = async function (event) {
   const username = signupForm.username.value;
   const password = signupForm.password.value;
 
-  if (!fullName.trim() || !username.trim() || !password.trim()) return;
+  if (!isGoodInputs(fullName, username, password)) return;
 
   // We can use signupForm.username (for example) to access
   // the input element in the form which has the ID of "username".
@@ -43,3 +43,9 @@ signupForm.onsubmit = async function (event) {
     await login({ username, password });
   }
 };
+
+function isGoodInputs(fullName, username, password) {
+  if (!fullName.trim() || !username.trim() || !password.trim()) return false;
+  if (username.length < 3) return false;
+  return true;
+}
