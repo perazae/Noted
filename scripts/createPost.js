@@ -118,7 +118,7 @@ function addPostToContainer(position, post) {
     const newPost = $(createUserPost(post, false));
     $(postsContainer).append(newPost).masonry('appended', newPost);
   } else {
-    profilePostsContainer.insertAdjacentHTML("beforeend", createUserPost(post, true))
+    profilePostsContainer.insertAdjacentHTML(position, createUserPost(post, true))
   }
 
   const parentNode = document.getElementById(`btns-${post._id}`);
