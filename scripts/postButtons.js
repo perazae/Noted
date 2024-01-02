@@ -21,7 +21,7 @@ function createDeleteButton(parentNode, postId) {
  * the corresponding post has an active "Like" on it.
  * In other words, this post has already been liked by the current user.
  */
- function createLikedButton(parentNode, postId, likeId) {
+function createLikedButton(parentNode, postId, likeId) {
   const btn = document.createElement("div");
   btn.classList.add("btn-like", "liked");
 
@@ -38,7 +38,7 @@ function createDeleteButton(parentNode, postId) {
       btn.remove();
       createUnlikedButton(parentNode, postId);
     } else {
-      alert("Ran into error when unliking post");
+      showToast(false, "Oh no! Failed to unlike the post.");
     }
   });
   parentNode.appendChild(btn);
@@ -70,7 +70,7 @@ function createUnlikedButton(parentNode, postId) {
       // removing the button prevents the animation from playing
       // btn.remove();
     } else {
-      alert("Ran into error when liking post");
+      showToast(false, "Oh no! Failed to like the post.");
     }
   });
   parentNode.appendChild(btn);
@@ -136,11 +136,9 @@ async function deletePost(postId) {
       requestOptions
     );
     if (response.ok) {
-      console.log(`Post with ID ${postId} deleted successfully`);
-    } else {
-      console.error("Error deleting post:", response.status);
+      showToast(true, `Post successfully deleted`);
     }
   } catch (error) {
-    console.error("Error deleting post:", error);
+    showToast(false, "Oh no! Failed to delete the post.");
   }
 }

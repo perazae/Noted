@@ -105,7 +105,7 @@ async function displayAllUserPosts(initialOffset) {
       index += 1;
     });
   } catch (error) {
-    console.error("Error fetching data:", error);
+    showToast(false, "Error fetching more posts.")
   }
 
   return data;

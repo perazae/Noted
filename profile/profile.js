@@ -111,7 +111,7 @@ async function viewProfilePosts(username) {
 
       document.getElementById("postLikes").innerText = numLikes;
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => showToast(false, "Error retrieving posts."));
 }
 
 //View user info with properties: fullname, un, bio, created and updated
@@ -129,7 +129,7 @@ async function getUserInfo(username) {
   };
 
   return fetch(`${apiBaseURL}/api/users/${username}`, requestOptions).catch(
-    (error) => console.log("error", error)
+    (error) => showToast(false, "Error retrieving user information.")
   );
 }
 
@@ -179,7 +179,7 @@ function putRequestProfile() {
       prepopulateEditProfileForm(result);
     })
     .catch((error) => {
-      console.log("error", error);
+      showToast(false, "Ran into error trying to update user information.");
     })
     .finally(closeModal("modalEditProfile"));
 }
@@ -224,5 +224,5 @@ function displayFriends() {
 
       document.getElementById("profileFriends").innerHTML = friendList;
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => showToast(false, "Error retrieving friend list."));
 }

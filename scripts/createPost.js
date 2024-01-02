@@ -32,8 +32,11 @@ function createPost() {
 
   fetch(apiBaseURL + "/api/posts", options)
     .then((response) => response.json())
-    .then((data) => resetCreatePostModal())
-    .catch((error) => alert("Ran into server error when creating post"));
+    .then((data) => {
+      resetCreatePostModal()
+      showToast(true, "You created a new post!")
+    })
+    .catch((error) => showToast(false, "ERROR: Failed to create post"));
 }
 
 // Reset form input fields and close modal
