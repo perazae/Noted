@@ -245,11 +245,13 @@ function displayFriends() {
 
         // Check if the friendUsername is not the current user
         let friend = friendUsername;
+        if (!friendList.includes(friend)){
         friendList += `
             <div class="list-group ">
               <a href="/profile/?username=${friend}" class="list-group-item list-group-item-action">@${friend}</a>
             </div>
           `;
+        }
       }
       document.getElementById("profileFriends").innerHTML = friendList;
     })
