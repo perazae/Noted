@@ -6,10 +6,15 @@ function createDeleteButton(parentNode, postId) {
 
   //add a click event listener to the delete button
   deleteBtn.addEventListener("click", async () => {
-    await deletePost(postId);
+    const response = await deletePost(postId);
 
-    //remove the whole card by getting the top ancestor
-    parentNode.parentNode.parentNode.remove();
+    if (response.ok) {
+      //remove the whole card by getting the top ancestor
+      parentNode.parentNode.parentNode.remove();
+      showToast(true, "Post successfully deleted!");
+    } else {
+      showToast(false, "Oh no! Failed to delete the post.");
+    }
   });
 
   //append the delete button to the parent node
@@ -66,9 +71,6 @@ function createUnlikedButton(parentNode, postId) {
       playLikeAnimation(btn);
       const like = await response.json();
       createLikedButton(parentNode, postId, like._id);
-
-      // removing the button prevents the animation from playing
-      // btn.remove();
     } else {
       showToast(false, "Oh no! Failed to like the post.");
     }
@@ -78,12 +80,13 @@ function createUnlikedButton(parentNode, postId) {
 
 // return the like id of the post that the current user has liked
 function isLiked(likesArray) {
+  if (!likesArray) return 0;
+
   for (let i = 0; i < likesArray.length; i++) {
     if (likesArray[i].username === getLoginData().username) {
       return likesArray[i]._id;
     }
   }
-  return 0;
 }
 
 function getLikeButton(parentNode, likesArray, postId) {
@@ -130,15 +133,5 @@ async function deletePost(postId) {
     },
   };
 
-  try {
-    const response = await fetch(
-      apiBaseURL + `/api/posts/${postId}`,
-      requestOptions
-    );
-    if (response.ok) {
-      showToast(true, `Post successfully deleted`);
-    }
-  } catch (error) {
-    showToast(false, "Oh no! Failed to delete the post.");
-  }
+  return fetch(apiBaseURL + `/api/posts/${postId}`, requestOptions);
 }

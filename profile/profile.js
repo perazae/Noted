@@ -97,16 +97,7 @@ async function viewProfilePosts(username) {
 
         numLikes += post.likes.length;
 
-        document
-          .getElementById("posts-container")
-          .insertAdjacentHTML("beforebegin", createUserPost(post));
-
-        const parentNode = document.getElementById(`btns-${post._id}`);
-        // create the delete button for this post
-        createDeleteButton(parentNode, post._id);
-
-        // insert the like button into the card body
-        getLikeButton(parentNode, post.likes, post._id);
+        addPostToContainer("beforeend", post);
       }
 
       document.getElementById("postLikes").innerText = numLikes;
@@ -201,10 +192,7 @@ function displayFriends() {
 
   let friendList = "";
 
-  fetch(
-    "http://microbloglite.us-east-2.elasticbeanstalk.com/api/users?limit=10&offset=5",
-    requestOptions
-  )
+  fetch(`${apiBaseURL}/api/users?limit=10&offset=5`, requestOptions)
     .then((response) => response.json())
     .then((friends) => {
       console.log(friends);

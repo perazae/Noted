@@ -88,24 +88,13 @@ async function displayAllUserPosts(initialOffset) {
       requestOptions
     );
     data = await response.json();
-    //bootstrap card
-    const postsContainer = document.getElementById("posts-container");
-    // postsContainer.innerHTML = ""; // refresh card
-    //loop to display data into card
+
+    // Create a bootstrap card for each post
     data.forEach((post) => {
-      postsContainer.insertAdjacentHTML("beforeend", createUserPost(post));
-
-      const parentNode = document.getElementById(`btns-${post._id}`);
-      // create the delete button for this post
-      createDeleteButton(parentNode, post._id);
-
-      // insert the like button into the card body
-      getLikeButton(parentNode, post.likes, post._id);
-
-      index += 1;
+      addPostToContainer("beforeend", post);
     });
   } catch (error) {
-    showToast(false, "Error fetching more posts.")
+    showToast(false, "Error fetching posts.");
   }
 
   return data;

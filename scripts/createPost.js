@@ -32,9 +32,10 @@ function createPost() {
 
   fetch(apiBaseURL + "/api/posts", options)
     .then((response) => response.json())
-    .then((data) => {
-      resetCreatePostModal()
-      showToast(true, "You created a new post!")
+    .then((post) => {
+      resetCreatePostModal();
+      showToast(true, "You created a new post!");
+      addPostToContainer("afterbegin", post);
     })
     .catch((error) => showToast(false, "ERROR: Failed to create post"));
 }
@@ -96,4 +97,17 @@ function createUserPost(post) {
   </div>
   `;
   return userPost;
+}
+
+// Add new posts to the top of the posts container
+function addPostToContainer(position, post) {
+  const postsContainer = document.getElementById("posts-container");
+  postsContainer.insertAdjacentHTML(position, createUserPost(post));
+
+  const parentNode = document.getElementById(`btns-${post._id}`);
+  // create the delete button for this post
+  createDeleteButton(parentNode, post._id);
+
+  // insert the like button into the card body
+  getLikeButton(parentNode, post.likes, post._id);
 }
