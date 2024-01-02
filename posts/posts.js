@@ -49,7 +49,7 @@ window.onscroll = async function (event) {
     loading = true;
 
     let data = await displayAllUserPosts(initialOffset);
-    initialOffset += 1;
+    initialOffset += 10;
 
     //Set loading variable to false once everything is loaded
     loading = false;

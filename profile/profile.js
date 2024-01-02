@@ -168,9 +168,10 @@ function putRequestProfile() {
     .then((result) => {
       updateProfile(result);
       prepopulateEditProfileForm(result);
+      showToast(true, "Profile successfully updated!");
     })
     .catch((error) => {
-      showToast(false, "Ran into error trying to update user information.");
+      showToast(false, "Ran into error trying to update your profile.");
     })
     .finally(closeModal("modalEditProfile"));
 }

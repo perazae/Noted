@@ -1,4 +1,4 @@
-function createDeleteButton(parentNode, postId, postNumLikes = 0) {
+function createDeleteButton(parentNode, postId) {
   const deleteBtn = document.createElement("button");
   //label and display button
   deleteBtn.innerHTML = "Delete";
@@ -13,7 +13,7 @@ function createDeleteButton(parentNode, postId, postNumLikes = 0) {
       parentNode.parentNode.parentNode.remove();
       updateProfilePostsNumber(-1); // subtract 1 from the number of posts
       // subtract the number of likes on the post from total likes
-      updateProfileLikes(postNumLikes * -1);
+      updateProfileLikes(parentNode.dataset.likes * -1);
       showToast(true, "Post successfully deleted!");
     } else {
       showToast(false, "Oh no! Failed to delete the post.");
@@ -45,6 +45,7 @@ function createLikedButton(parentNode, postId, likeId) {
     if (response.ok) {
       btn.remove();
       createUnlikedButton(parentNode, postId);
+      parentNode.dataset.likes = parseInt(parentNode.dataset.likes) - 1;
       updateProfileLikes(-1);
     } else {
       showToast(false, "Oh no! Failed to unlike the post.");
@@ -75,6 +76,7 @@ function createUnlikedButton(parentNode, postId) {
       playLikeAnimation(btn);
       const like = await response.json();
       createLikedButton(parentNode, postId, like._id);
+      parentNode.dataset.likes = parseInt(parentNode.dataset.likes) + 1;
       updateProfileLikes(1);
     } else {
       showToast(false, "Oh no! Failed to like the post.");
@@ -151,6 +153,11 @@ function updateProfilePostsNumber(numPosts) {
 function updateProfileLikes(numLikes) {
   const postLikes = document.getElementById("postLikes");
   if (postLikes) {
-    postLikes.textContent = parseInt(postLikes.textContent) + numLikes;
+    const currentLikes = parseInt(postLikes.textContent);
+    if (currentLikes + numLikes < 0) {
+      postLikes.textContent = 0;
+    } else {
+      postLikes.textContent = parseInt(postLikes.textContent) + numLikes;
+    }
   }
 }
