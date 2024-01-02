@@ -8,7 +8,7 @@ signupForm.onsubmit = async function (event) {
   // Prevent the form from refreshing the page,
   // as it will do by default when the Submit event is triggered:
   event.preventDefault();
-  
+
   const fullName = signupForm.fullName.value;
   const username = signupForm.username.value;
   const password = signupForm.password.value;
@@ -33,7 +33,7 @@ signupForm.onsubmit = async function (event) {
 
   const response = await createUser(userData);
   if (!response.ok) {
-    alert("Username has already been taken.");
+    document.getElementById("error-msg").classList.remove("d-none");
     // Re-enable the button after the fetch request has been completed:
     signupForm.signupButton.disabled = false;
     signupForm.signupButton.textContent = "Sign Up";

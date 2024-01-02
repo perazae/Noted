@@ -30,7 +30,7 @@ loginForm.onsubmit = async function (event) {
   // Time to actually process the login using the function from auth.js!
   await login(loginData).then((response) => {
     if (response.statusCode === 400) {
-      alert("Invalid credentials. Please try again.");
+      document.getElementById("error-msg").classList.remove("d-none");
     }
   });
 
