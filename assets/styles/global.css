@@ -1,5 +1,16 @@
 /* Global CSS for all pages */
 
 .top-5 {
-    top: 5%;
+  top: 5%;
+}
+
+#btn-logout:hover {
+  background-color: #e4ad0b;
+}
+
+#btn-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
 }
