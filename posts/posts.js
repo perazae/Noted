@@ -2,27 +2,40 @@
 "use strict";
 
 window.onload = init;
-//initalize
-function init() {
-  const btnCreatePost = document.getElementById("btnCreatePost");
-  btnCreatePost.addEventListener("click", clearForm);
-  displayAllUserPosts(0);
-}
 
-let index = 0;
 //prevents previous posts from loading again
 let loading = false;
 //checks to see if there are more posts
 let hasMorePosts = true;
-let initialOffset = 10;
+let initialOffset = 0;
+
+//initalize
+function init() {
+  const btnCreatePost = document.getElementById("btnCreatePost");
+  btnCreatePost.addEventListener("click", clearForm);
+
+  // Because we are using an infinite scroll feature, 
+  // it won't activate if the window can't scroll or no scroll bar exists.
+  // To prevent this, we need to at least fill the initial screen with posts,
+  // so that the scroll bar can exist.
+  // The following interval will fill the screen with posts every second
+  // until the document height is greater than the screen height
+  let fillScreenWithPosts = setInterval(async () => {
+    const windowHeight = window.screen.height;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    if (windowHeight >= documentHeight) {
+      await displayAllUserPosts(initialOffset);
+      initialOffset += 10;
+    } else {
+      clearInterval(fillScreenWithPosts);
+    }
+  }, 1000);
+}
 
 /**This function will allow the user to load posts as they scroll
  * in other words, it is an infinite scrolling function until the last post is displayed
  */
-
-//Get the button
-let btnScrollToTop = document.getElementById("btn-back-to-top");
-
 window.onscroll = async function (event) {
   // When the user scrolls down 20px from the top of the document, show the button
   scrollFunction();
@@ -36,7 +49,7 @@ window.onscroll = async function (event) {
     loading = true;
 
     let data = await displayAllUserPosts(initialOffset);
-    initialOffset += 10;
+    initialOffset += 1;
 
     //Set loading variable to false once everything is loaded
     loading = false;
@@ -53,6 +66,8 @@ window.onscroll = async function (event) {
   }
 };
 
+//Get the button
+let btnScrollToTop = document.getElementById("btn-back-to-top");
 function scrollFunction() {
   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
     btnScrollToTop.style.display = "block";
