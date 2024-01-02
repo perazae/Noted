@@ -87,7 +87,9 @@ function createUserPost(post) {
   const userPost = `
   <div class="card w-100 shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
     <div class="card-body">
-      <h5 class="card-title">@${post.username}</h5>
+      <a href="/profile/?username=${post.username}" class="text-decoration-none text-dark">
+        <h5 class="card-title">@${post.username}</h5>
+      </a>
       <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
         <p class="card-text"><h4 class="text-center"><strong>${post.text}</strong></h4></p>
         <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
@@ -107,7 +109,9 @@ function addPostToContainer(position, post) {
 
   const parentNode = document.getElementById(`btns-${post._id}`);
   // create the delete button for this post
-  createDeleteButton(parentNode, post._id, post.likes?.length);
+  if (post.username === getLoginData().username) {
+    createDeleteButton(parentNode, post._id, post.likes?.length);
+  }
 
   // insert the like button into the card body
   getLikeButton(parentNode, post.likes, post._id);
