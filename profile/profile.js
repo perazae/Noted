@@ -53,9 +53,19 @@ async function init() {
     btnEditProfile.remove();
     document.getElementById("modalEditProfile").remove();
 
-  // colors array for user profiles
-    const colors = ["#3498db", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#1abc9c", "#d35400", "#34495e", "#c0392b", "#27ae60"]
-    ;
+    // colors array for user profiles
+    const colors = [
+      "#3498db",
+      "#e74c3c",
+      "#2ecc71",
+      "#f39c12",
+      "#9b59b6",
+      "#1abc9c",
+      "#d35400",
+      "#34495e",
+      "#c0392b",
+      "#27ae60",
+    ];
     const covers = [
       `url(https://wallpapercave.com/wp/iu98stB.jpg)`,
       `url(https://wallpaperaccess.com/full/1713744.jpg)`,
@@ -66,29 +76,22 @@ async function init() {
       `url(https://i.pinimg.com/originals/67/7a/33/677a33611a9910bfdc7503de78c08323.jpg)`,
       `url(https://wallpapers.com/images/featured/4k-oaax18kaapkokaro.jpg)`,
       `url(https://wallpaperaccess.com/full/7270387.gif)`,
-      `url(https://wallpaperaccess.com/full/8088665.gif)`
+      `url(https://wallpaperaccess.com/full/8088665.gif)`,
     ];
 
-// Function to shuffle the color array using Fisher-Yates algorithm
-// function shuffleArray(array) {
-//     for (let i = array.length - 1; i > 0; i--) {
-//         const j = Math.floor(Math.random() * (i + 1));
-//         [array[i], array[j]] = [array[j], array[i]];
-//     }
-// }
-
-// shuffleArray(colors);
-// shuffleArray(covers);
-
-let randomCover = Math.floor(Math.random() * covers.length)
-let randomColor = Math.floor(Math.random() * colors.length)
-document.getElementById('backgroundColor').style.background = covers[randomCover];
-document.getElementById('backgroundColor').style.backgroundSize = "cover";
-document.getElementById('backgroundColor').style.backgroundRepeat = "no-repeat";
-document.getElementById('backgroundColor').style.backgroundPosition = "center center";
-document.getElementById('backgroundColor').style.backgroundAttachment = "fixed";
-document.getElementById('coverColor').style.background = colors[randomColor];
-
+    let randomCover = Math.floor(Math.random() * covers.length);
+    let randomColor = Math.floor(Math.random() * colors.length);
+    document.getElementById("backgroundCover").style.background =
+      covers[randomCover];
+    document.getElementById("backgroundCover").style.backgroundSize = "cover";
+    document.getElementById("backgroundCover").style.backgroundRepeat =
+      "no-repeat";
+    document.getElementById("backgroundCover").style.backgroundPosition =
+      "center center";
+    document.getElementById("backgroundCover").style.backgroundAttachment =
+      "fixed";
+    document.getElementById("coverColor").style.background =
+      colors[randomColor];
   } else {
     btnEditProfile.classList.remove("d-none");
   }
@@ -96,10 +99,10 @@ document.getElementById('coverColor').style.background = colors[randomColor];
   // change the user's @ tag and show their posts
   changeUserTag(username);
   viewProfilePosts(username);
-  displayFriends(); 
-}  
-console.log(document.getElementById('profileFriends')) 
-console.log("plop")
+  displayFriends();
+}
+console.log(document.getElementById("profileFriends"));
+console.log("plop");
 
 // change the user's @ tag
 function changeUserTag(username) {
@@ -239,15 +242,14 @@ function displayFriends() {
         const friendUsername = friends[index].username;
 
         // Check if the friendUsername is not the current user
-          let friend = friendUsername;
-          friendList += `
+        let friend = friendUsername;
+        friendList += `
             <div class="list-group ">
               <a href="/profile/?username=${friend}" class="list-group-item list-group-item-action">@${friend}</a>
             </div>
-          `;   
+          `;
       }
       document.getElementById("profileFriends").innerHTML = friendList;
     })
     .catch((error) => showToast(false, "Error retrieving friend list."));
 }
-
