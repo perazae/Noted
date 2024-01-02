@@ -102,7 +102,8 @@ async function viewProfilePosts(username) {
 
       document.getElementById("postLikes").textContent = numLikes;
     })
-    .catch((error) => showToast(false, "Error retrieving posts."));
+    .catch((error) => console.log(error));
+    // .catch((error) => showToast(false, "Error retrieving posts."));
 }
 
 //View user info with properties: fullname, un, bio, created and updated

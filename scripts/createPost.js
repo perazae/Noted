@@ -66,7 +66,7 @@ function closeModal(modalElementId) {
  * @param {Object} post
  * @returns {string} HTML
  */
-function createUserPost(post) {
+function createUserPost(post, isProfile) {
   //Formatting time of post
   const timeStamp = post.createdAt;
   const date = new Date(timeStamp);
@@ -84,17 +84,21 @@ function createUserPost(post) {
   //Newly formatted time of post to display
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
 
+  let homePageSettings = "col-4"
+
   const userPost = `
-  <div class="card w-100 shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
-    <div class="card-body">
-      <a href="/profile/?username=${post.username}" class="text-decoration-none text-dark">
-        <h5 class="card-title">@${post.username}</h5>
-      </a>
-      <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
-        <p class="card-text"><h4 class="text-center"><strong>${post.text}</strong></h4></p>
-        <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
-      </div>
-      <div id="btns-${post._id}">
+  <div class="grid-item ${isProfile ? '' : homePageSettings}">
+    <div class="card w-100 shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
+      <div class="card-body">
+        <a href="/profile/?username=${post.username}" class="text-decoration-none text-dark">
+          <h5 class="card-title">@${post.username}</h5>
+        </a>
+        <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
+          <p class="card-text"><h4 class="text-center"><strong>${post.text}</strong></h4></p>
+          <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
+        </div>
+        <div id="btns-${post._id}">
+        </div>
       </div>
     </div>
   </div>
@@ -105,7 +109,17 @@ function createUserPost(post) {
 // Add new posts to the top of the posts container
 function addPostToContainer(position, post) {
   const postsContainer = document.getElementById("posts-container");
-  postsContainer.insertAdjacentHTML(position, createUserPost(post));
+  const profilePostsContainer = document.getElementById("profile-posts-container");
+
+  if (postsContainer) {
+    // using insertAdjacentHTML caused column heights of each post
+    // to not work properly in a masonry
+    // The following workaround with jQuery will append each post properly
+    const newPost = $(createUserPost(post, false));
+    $(postsContainer).append(newPost).masonry('appended', newPost);
+  } else {
+    profilePostsContainer.insertAdjacentHTML("beforeend", createUserPost(post, true))
+  }
 
   const parentNode = document.getElementById(`btns-${post._id}`);
   parentNode.dataset.likes = post.likes ? post.likes.length : 0;
