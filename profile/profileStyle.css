@@ -19,3 +19,8 @@ body {
   top: 80%;
   left: 48.75%;
 }
+
+#profilePicture {
+  height: 150px;
+  width: 150px;
+}
