@@ -2,7 +2,7 @@
 
 "use strict";
 
-const apiBaseURL = "http://microbloglite.us-east-2.elasticbeanstalk.com";
+const apiBaseURL = "https://microbloglite.us-east-2.elasticbeanstalk.com";
 // Backup server:   https://microbloglite.onrender.com
 // First server: https://microbloglite.herokuapp.com
 
