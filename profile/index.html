@@ -51,7 +51,7 @@
             </li>
             <li class="nav-item ms-auto">
               <button class="btn btn-dark" id="btnCreatePost" data-bs-toggle="modal" data-bs-target="#modalCreatePost">
-                Create Post
+                Create Note
               </button>
               <button class="btn btn-outline-dark" id="btn-logout" onclick="logout()">
                 Logout
@@ -144,7 +144,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="modalLabelCreatePost">
-              Create a post
+              Create A Note!
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
@@ -153,13 +153,13 @@
               <textarea class="form-control" id="inputPostText" placeholder="What's on your mind?" minlength="2" maxlength="255"
                 rows="3" required></textarea>
               <div class="invalid-feedback">
-                Your post must be at least 2 characters.
+                Your note must be at least 2 characters.
               </div>
               <button type="submit" id="btnSubmitPost" class="visually-hidden"></button>
             </form>
           </div>
           <div class="modal-footer">
-            <label for="btnSubmitPost" class="btn btn-dark" tabindex="0">Post!</label>
+            <label for="btnSubmitPost" class="btn btn-dark" tabindex="0">Note!</label>
           </div>
         </div>
       </div>
@@ -196,7 +196,7 @@
           </div>
           <div class="modal-footer">
             <button id="btnSubmitEditProfile" class="btn btn-dark" tabindex="0">
-              Update
+              Save
             </button>
           </div>
         </div>
