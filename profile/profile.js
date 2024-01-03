@@ -2,21 +2,22 @@
 
 window.onload = init;
 
+let currentProfile = "";
+
 async function init() {
   const urlParams = new URLSearchParams(location.search);
   let currentUser = getLoginData().username;
-  let username = "";
   let userInfo;
 
   // check if we're visiting someone else's profile
   if (urlParams.has("username") === true) {
-    username = urlParams.get("username");
+    currentProfile = urlParams.get("username");
   } else {
-    username = currentUser;
+    currentProfile = currentUser;
   }
 
   // check if the user exists from the given username in the URL params
-  const response = await getUserInfo(username);
+  const response = await getUserInfo(currentProfile);
   if (response.ok) {
     userInfo = await response.json();
     prepopulateEditProfileForm(userInfo);
@@ -49,7 +50,7 @@ async function init() {
   });
 
   // remove the Edit Profile button on someone else's profile page
-  if (username !== currentUser) {
+  if (currentProfile !== currentUser) {
     btnEditProfile.remove();
     document.getElementById("modalEditProfile").remove();
 
@@ -97,12 +98,10 @@ async function init() {
   }
 
   // change the user's @ tag and show their posts
-  changeUserTag(username);
-  viewProfilePosts(username);
+  changeUserTag(currentProfile);
+  viewProfilePosts(currentProfile);
   displayFriends();
 }
-console.log(document.getElementById("profileFriends"));
-console.log("plop");
 
 // change the user's @ tag
 function changeUserTag(username) {
@@ -240,17 +239,20 @@ function displayFriends() {
   fetch(`${apiBaseURL}/api/users?limit=10&offset=5`, requestOptions)
     .then((response) => response.json())
     .then((friends) => {
+      const uniqueFriends = {}
+
       for (let index = 0; index < 10; index++) {
         const friendUsername = friends[index].username;
+        let friend = friendUsername.toLowerCase().trim();
 
         // Check if the friendUsername is not the current user
-        let friend = friendUsername;
-        if (!friendList.includes(friend)){
-        friendList += `
-            <div class="list-group ">
-              <a href="/profile/?username=${friend}" class="list-group-item list-group-item-action">@${friend}</a>
-            </div>
-          `;
+        if (!uniqueFriends[friend] && friendUsername !== currentProfile){
+          uniqueFriends[friend] = 1;
+          friendList += `
+              <div class="list-group ">
+                <a href="/profile/?username=${friendUsername}" class="list-group-item list-group-item-action">@${friendUsername}</a>
+              </div>
+            `;
         }
       }
       document.getElementById("profileFriends").innerHTML = friendList;
