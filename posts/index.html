@@ -12,14 +12,12 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
   <!-- Global CSS (CSS rules you want applied to all pages) -->
   <link rel="stylesheet" href="../assets/styles/global.css" />
-  <!-- Add the Font Awesome CSS link -->
-  <link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-
+  
   <!-- Page-specific CSS -->
   <link rel="stylesheet" href="posts.css" />
   <link rel="stylesheet" href="/assets/styles/heart_like_button.css" />
 
-  <title>/POSTS</title>
+  <title>Posts - Noted</title>
 
   <!-- Run BEFORE page is finished loading (before window.onload): -->
   <script src="../scripts/auth.js"></script>
@@ -49,7 +47,7 @@
             </li>
             <li class="nav-item ms-auto">
               <button class="btn btn-dark me-2" id="btnCreatePost" data-bs-toggle="modal" data-bs-target="#modalCreatePost">
-                Create Post
+                Create Note
               </button>
               <button class="btn btn-outline-dark" id="btn-logout" onclick="logout()">
                 Logout
@@ -76,7 +74,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">
-              Create a post
+              Create A Note!
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
@@ -85,13 +83,13 @@
               <textarea class="form-control" id="inputPostText" placeholder="What's on your mind?" minlength="2" maxlength="255"
                 rows="3" required></textarea>
               <div class="invalid-feedback">
-                Your post must be at least 2 characters.
+                Your note must be at least 2 characters.
               </div>
               <button type="submit" id="btnSubmitPost" class="visually-hidden"></button>
             </form>
           </div>
           <div class="modal-footer">
-            <label for="btnSubmitPost" class="btn btn-dark" tabindex="0">Post!</label>
+            <label for="btnSubmitPost" class="btn btn-dark" tabindex="0">Note!</label>
           </div>
         </div>
       </div>
@@ -125,8 +123,6 @@
     </button>
 
   </main>
-
-  <footer></footer>
 
   <!-- Page-specific code -->
   <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" 

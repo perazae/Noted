@@ -95,13 +95,13 @@ function createUserPost(post, isProfile) {
         }" class="text-decoration-none text-dark">
           <h5 class="card-title">@${post.username}</h5>
         </a>
-        <div class="shadow-sm p-3 mb-5 bg-white rounded border-top">
+        <div class="shadow-sm p-3 mb-4 bg-white rounded border-top">
           <p class="card-text"><h4 class="text-center"><strong>${
             post.text
           }</strong></h4></p>
           <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
         </div>
-        <div id="btns-${post._id}">
+        <div class="btns-post" id="btns-${post._id}">
         </div>
       </div>
     </div>
