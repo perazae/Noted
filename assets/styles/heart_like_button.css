@@ -5,15 +5,15 @@
   height: 1rem;
 
   position: absolute;
-  top: 80%;
-  left: 49.25%;
+  top: 30%;
+  left: 47.25%;
   transform: translate(-50%, -50%);
   cursor: pointer;
 }
 
 .btn-like:hover::before,
 .btn-like:hover::after {
-  background: #f7fafe;
+  background: #ced0d4;
 }
 
 .btn-like::before,
