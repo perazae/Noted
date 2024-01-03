@@ -101,7 +101,7 @@ function createUserPost(post, isProfile) {
           }</strong></h4></p>
           <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
         </div>
-        <div class="btns-post" id="btns-${post._id}">
+        <div class="btns-post d-flex align-content-center" id="btns-${post._id}">
         </div>
       </div>
     </div>
