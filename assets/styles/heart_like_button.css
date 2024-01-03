@@ -13,7 +13,7 @@
 
 .btn-like:hover::before,
 .btn-like:hover::after {
-  background: #f7fafe;
+  background: #ced0d4;
 }
 
 .btn-like::before,
