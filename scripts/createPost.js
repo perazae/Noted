@@ -84,7 +84,7 @@ function createUserPost(post, isProfile) {
   //Newly formatted time of post to display
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
 
-  let homePageSettings = "col-4"
+  let homePageSettings = "col col-sm-6 col-lg-4"
 
   const userPost = `
   <div class="grid-item ${isProfile ? '' : homePageSettings}">
