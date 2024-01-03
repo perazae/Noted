@@ -80,8 +80,18 @@ async function init() {
       `url(https://wallpaperaccess.com/full/8088665.gif)`,
     ];
 
+    const imageUrls = [
+      "https://i.pinimg.com/236x/0d/c7/02/0dc7020e567d6d282bf0d7dec7104136.jpg",
+      "https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg",
+      "https://www.c-and-a.com/image/upload/q_auto:good,ar_4:3,c_fill,g_auto:face,w_342/s/editorial/wandern-fernwandern/wandern-arten-text-media-header.jpg",
+      "https://static.toiimg.com/thumb/msid-87477887,width-400,resizemode-4/87477887.jpg",
+      "https://media.istockphoto.com/id/1368965646/photo/multi-ethnic-guys-and-girls-taking-selfie-outdoors-with-backlight-happy-life-style-friendship.webp?b=1&s=170667a&w=0&k=20&c=oFtP564Ykvak2VIyM1OUb29daY5S4uqsmT3j3_8QgfQ=",
+    ];
+
     let randomCover = Math.floor(Math.random() * covers.length);
     let randomColor = Math.floor(Math.random() * colors.length);
+    let randomImg = Math.floor(Math.random() * imageUrls.length);
+
     document.getElementById("backgroundCover").style.background =
       covers[randomCover];
     document.getElementById("backgroundCover").style.backgroundSize = "cover";
@@ -93,9 +103,13 @@ async function init() {
       "fixed";
     document.getElementById("coverColor").style.background =
       colors[randomColor];
+    document.getElementById("profilePicture").src = imageUrls[randomImg]
+    
   } else {
     btnEditProfile.classList.remove("d-none");
   }
+
+  
 
   // change the user's @ tag and show their posts
   changeUserTag(currentProfile);
@@ -236,12 +250,12 @@ function displayFriends() {
 
   let friendList = [];
 
-  fetch(`${apiBaseURL}/api/users?limit=10&offset=5`, requestOptions)
+  fetch(`${apiBaseURL}/api/users?limit=25&offset=5`, requestOptions)
     .then((response) => response.json())
     .then((friends) => {
       const uniqueFriends = {}
 
-      for (let index = 0; index < 10; index++) {
+      for (let index = 0; index < friends.length; index++) {
         const friendUsername = friends[index].username;
         let friend = friendUsername.toLowerCase().trim();
 
