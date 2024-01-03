@@ -4,3 +4,7 @@
   position: relative;
   height: 35px;
 }
+
+.btns-post p {
+  line-height: 35px;
+}

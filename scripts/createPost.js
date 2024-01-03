@@ -105,7 +105,7 @@ function createUserPost(post, isProfile) {
         </div>
         <div class="btns-post d-flex align-content-center justify-content-between" 
           id="btns-${post._id}">
-          <p class="m-0">${numLikes} ${numLikes === 1 ? "Like" : "Likes"}</p>
+          <p class="m-0 post-likes">${numLikes} ${numLikes === 1 ? "Like" : "Likes"}</p>
         </div>
       </div>
     </div>
