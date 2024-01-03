@@ -3,11 +3,11 @@
 window.onload = init;
 
 let currentProfile = "";
+let userInfo;
 
 async function init() {
   const urlParams = new URLSearchParams(location.search);
   let currentUser = getLoginData().username;
-  let userInfo;
 
   // check if we're visiting someone else's profile
   if (urlParams.has("username") === true) {
@@ -47,6 +47,7 @@ async function init() {
   const btnEditProfile = document.getElementById("btnEditProfile");
   btnEditProfile.addEventListener("click", () => {
     formEditProfile.classList.remove("was-validated");
+    prepopulateEditProfileForm(userInfo);
   });
 
   // remove the Edit Profile button on someone else's profile page
@@ -181,6 +182,7 @@ async function getUserInfo(username) {
 }
 
 function prepopulateEditProfileForm(result) {
+  userInfo = result;
   document.getElementById("editFullName").value = result.fullName;
   document.getElementById("editBio").value = result.bio;
 }
