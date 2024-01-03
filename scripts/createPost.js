@@ -84,7 +84,9 @@ function createUserPost(post, isProfile) {
   //Newly formatted time of post to display
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
 
-  let homePageSettings = "col col-sm-6 col-lg-4"
+  let homePageSettings = "col col-sm-6 col-lg-4";
+
+  const numLikes = post.likes ? post.likes.length : 0;
 
   const userPost = `
   <div class="grid-item ${isProfile ? "" : homePageSettings}">
@@ -101,7 +103,9 @@ function createUserPost(post, isProfile) {
           }</strong></h4></p>
           <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
         </div>
-        <div class="btns-post d-flex align-content-center" id="btns-${post._id}">
+        <div class="btns-post d-flex align-content-center justify-content-between" 
+          id="btns-${post._id}">
+          <p class="m-0">${numLikes} ${numLikes === 1 ? "Like" : "Likes"}</p>
         </div>
       </div>
     </div>
