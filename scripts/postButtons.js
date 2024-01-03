@@ -59,6 +59,7 @@ function createLikedButton(parentNode, postId, likeId) {
       parentNode.dataset.likes = parseInt(parentNode.dataset.likes) - 1;
       updateProfileLikes(-1);
 
+      // update the number of likes on the post
       const numLikes = parentNode.dataset.likes;
       const numLikesText = parentNode.querySelector(".post-likes");
       numLikesText.textContent = `
@@ -96,6 +97,7 @@ function createUnlikedButton(parentNode, postId) {
       parentNode.dataset.likes = parseInt(parentNode.dataset.likes) + 1;
       updateProfileLikes(1);
 
+      // update the number of likes on the post
       const numLikes = parentNode.dataset.likes;
       const numLikesText = parentNode.querySelector(".post-likes");
       numLikesText.textContent = `
