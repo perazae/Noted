@@ -11,6 +11,8 @@
 
 body {
     background: linear-gradient(45deg, #ca9912, #111);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .card {
