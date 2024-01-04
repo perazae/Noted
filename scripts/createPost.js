@@ -98,7 +98,7 @@ function createUserPost(post, isProfile) {
           <h5 class="card-title">@${post.username}</h5>
         </a>
         <div class="shadow-sm p-3 mb-4 bg-white rounded border-top">
-          <p class="card-text"><h4 class="text-center"><strong>${
+          <p class="card-text"><h4 class="text-center image-size"><strong>${
             post.text
             
           }</strong></h4></p>
