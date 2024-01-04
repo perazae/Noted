@@ -7,6 +7,7 @@ window.onload = init;
 let loading = false;
 //checks to see if there are more posts
 let hasMorePosts = true;
+//initial offset of posts
 let initialOffset = 0;
 
 //initalize
