@@ -100,6 +100,7 @@ function createUserPost(post, isProfile) {
         <div class="shadow-sm p-3 mb-4 bg-white rounded border-top">
           <p class="card-text"><h4 class="text-center"><strong>${
             post.text
+            
           }</strong></h4></p>
           <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
         </div>
