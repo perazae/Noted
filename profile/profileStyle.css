@@ -24,3 +24,8 @@ body {
   height: 150px;
   width: 150px;
 }
+
+.image-size img{
+  width: 100%;
+  height: 100%;
+}
