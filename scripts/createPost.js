@@ -87,6 +87,7 @@ function createUserPost(post, isProfile) {
   let homePageSettings = "col col-sm-6 col-lg-4";
 
   const numLikes = post.likes ? post.likes.length : 0;
+  const text = post.text.replace(/(<([^>]+)>)/gi, "");
 
   const userPost = `
   <div class="grid-item ${isProfile ? "" : homePageSettings}">
@@ -98,15 +99,15 @@ function createUserPost(post, isProfile) {
           <h5 class="card-title">@${post.username}</h5>
         </a>
         <div class="shadow-sm p-3 mb-4 bg-white rounded border-top">
-          <p class="card-text"><h4 class="text-center image-size"><strong>${
-            post.text
-            
-          }</strong></h4></p>
+          <h4 class="text-center image-size">
+            <strong>${text}</strong>
+          </h4>
           <h6 class="card-subtitle mb-2 text-body-secondary text-center"><em>Noted: ${formattedDate}</em></h6>
         </div>
-        <div class="btns-post d-flex align-content-center justify-content-between" 
+        <div class="btns-post d-flex align-content-center justify-content-between position-relative" 
           id="btns-${post._id}">
-          <p class="m-0 post-likes">${numLikes} ${numLikes === 1 ? "Like" : "Likes"}</p>
+          <p class="m-0 post-likes">
+            ${numLikes} ${numLikes === 1 ? "Like" : "Likes"}</p>
         </div>
       </div>
     </div>
