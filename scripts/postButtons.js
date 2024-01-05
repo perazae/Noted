@@ -20,8 +20,20 @@ function createDeleteButton(parentNode, postId) {
     const response = await deletePost(postId);
 
     if (response.ok) {
+      const topAncestor = parentNode.parentNode.parentNode.parentNode;
+
+      // the grid only exists on the home page, not on the profile page
+      // thus, if we're on the profile page, then just remove the DOM node
+      const grid = $(".grid").length;
+      if (grid) {
+        $(".grid")
+          .masonry("remove", $(topAncestor))
+          // layout remaining item elements
+          .masonry("layout");
+      } else {
+        topAncestor.remove();
+      }
       //remove the whole card by getting the top ancestor
-      parentNode.parentNode.parentNode.remove();
       updateProfilePostsNumber(-1); // subtract 1 from the number of posts
       // subtract the number of likes on the post from total likes
       updateProfileLikes(parentNode.dataset.likes * -1);
