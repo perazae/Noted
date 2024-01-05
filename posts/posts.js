@@ -7,6 +7,7 @@ window.onload = init;
 let loading = false;
 //checks to see if there are more posts
 let hasMorePosts = true;
+//offset for fetching the posts 
 let initialOffset = 0;
 
 //initalize
@@ -44,8 +45,8 @@ window.onscroll = async function (event) {
   ) {
     //Sets loading variable to true to prevent duplicates
     loading = true;
-
-    let data = await displayAllUserPosts(initialOffset);
+    //Adds an increment of 10 to posts to display more posts
+    let data = await displayAllUserPosts(initialOffset);  
     initialOffset += 10;
 
     //Set loading variable to false once everything is loaded
