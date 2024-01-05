@@ -10,7 +10,6 @@
   <h4 align="center">A team project with the Year Up Application Devolpement Track</h4>
     <a href="https://github.com/perazae/Noted"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="#">View Demo</a> 
 
 </div>
 
@@ -32,7 +31,7 @@ In this project, we collaborated to build a "microblogging" website which allows
   ```sh
   https://code.visualstudio.com/
   ```
-  * Use Base URL:
+  * Use API Base URL:
   http://microbloglite.us-east-2.elasticbeanstalk.com
 
 ### Features
