@@ -7,7 +7,7 @@
 
   <h1 align="center">Noted</h1>
   <h3 align="center">Capstone 3 Project</h3>
-  <h4 align="center">A team project with the Year Up Application Devolpement Track</h4>
+  <h4 align="center">A team project with the Year Up Application Development Track</h4>
     <a href="https://github.com/perazae/Noted"><strong>Explore the docs »</strong></a>
     <br />
 
